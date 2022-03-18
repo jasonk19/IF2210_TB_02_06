@@ -30,17 +30,41 @@ int main()
 
     //Log testing
     // Log l1;
-    // Log* l2 = new Log(BIRCH_LOG, "BIRCH_PLANK", 8);
-    // Log l4(OAK_LOG, "OAK_LOG",4);
+    cout<<"Log Testing"<<endl;
+    Log* l2 = new Log(BIRCH_LOG, 1);
+    Log l4(OAK_LOG, 4);
     // l1.show();cout<<endl;
-    // l2->show();
+    l2->show();
     // l1 = *l2;
     // l1.show();
     // Log L3 = Log(*l2);
     // l2->show();
-    // l4.show();
+    l4.show();
     // L3.show();
-    // delete l2;
+    delete l2;
+    cout<<"End of Log Testing\n"<<endl;
+    
+    //Plank testing
+    cout<<"Plank Testing"<<endl;
+    Plank p1(BIRCH_PLANK, 3);
+    Plank p2(SPRUCE_PLANK, 4);
+    Plank p3;
+    Plank p4(p2);
+    p3 = p1;
+    p1.show();
+    p2.show();
+    p3.show();
+    p4.show();
+    cout<<"End of Plank Testing\n"<<endl;
+
+    //Stone testing
+    cout<<"Stone Testing"<<endl;
+    Stone s1(COBBLESTONE, 5);
+    Stone s2;
+    s2 = s1;
+    s1.show();
+    s2.show();
+    cout<<"End of Stone Testing\n"<<endl;
 
     //Axe Testing
     // Axe a1;

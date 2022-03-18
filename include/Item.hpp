@@ -10,7 +10,7 @@ enum ItemID {
     BIRCH_LOG = 3,
     OAK_PLANK = 4,
     SPRUCE_PLANK = 5,
-    BIRHCH_PLANK = 6,
+    BIRCH_PLANK = 6,
     STICK = 7,
     COBBLESTONE = 8,
     BLACKSTONE = 9,
