@@ -1,4 +1,20 @@
 #include "Item.hpp"
+#include <fstream>
+
+map<string,ItemID> Item::nama_ItemIdMap;
+map<ItemID,Item*> Item::itemId_ItemMap;
+
+void Item::readItemConfig(string configFile){
+    ifstream config(configFile);
+    int id;
+    string name, type, toolnontool;
+    while(config >> id >> name >> type >> toolnontool){
+        Item::nama_ItemIdMap.insert({name, (ItemID)id});
+        //Item::itemId_ItemMap.insert({(ItemID)id, new Item(id, name, toolnontool)});
+    }
+
+    config.close();
+}
 
 Item::Item()
 {

@@ -3,8 +3,10 @@
 
 #include <iostream>
 #include <string>
+#include <map>
 
-enum ItemID {
+typedef enum ItemID {
+    NO_ITEM = 0,
     OAK_LOG = 1,
     SPRUCE_LOG = 2,
     BIRCH_LOG = 3,
@@ -29,7 +31,7 @@ enum ItemID {
     STONE_SWORD = 22,
     IRON_SWORD = 23,
     DIAMOND_SWORD = 24
-};
+} ItemID;
 
 using namespace std;
 
@@ -39,6 +41,10 @@ class Item {
         string name;
         string type;
     public:
+        static map<string,ItemID> nama_ItemIdMap; // mapping nama dan enum ItemID, dari config
+        static map<ItemID,Item*> itemId_ItemMap;  // menyimpan objek Item, jika ingin menambah suatu objek tinggal copy dari sini
+        static void readItemConfig(string configFile); // menginisialisasi namaItemIdMap dan itemIdItemMap
+
         //CTOR, CCTOR, operator=, DTOR
         Item();
         Item(int id, string name, string type);
@@ -57,6 +63,7 @@ class Item {
         void setType(string type);
 
         virtual void show() = 0;
+        template<typename T>
         bool isA();
 };
 
