@@ -63,3 +63,9 @@ void Item::setType(string type)
 {
     this->type = type;
 }
+
+template<typename T>
+bool Item::isA()
+{
+    return (dynamic_cast<T*>(this) != NULL);
+}

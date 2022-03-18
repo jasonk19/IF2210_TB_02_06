@@ -57,6 +57,7 @@ class Item {
         void setType(string type);
 
         virtual void show() = 0;
+        bool isA();
 };
 
 #endif
