@@ -31,7 +31,7 @@ Item& Item::operator=(const Item& item)
 
 Item::~Item()
 {
-    cout<<"Item Destroyed"<<endl;
+    // cout<<"Item Destroyed"<<endl;
 }
 
 int Item::getId()

@@ -10,26 +10,21 @@ NonTool::NonTool(int id, string name, string type, int quantity) : Item(id, name
     this->quantity = quantity;
 }
 
-NonTool::NonTool(const NonTool& nt)
+NonTool::NonTool(const NonTool& nt) : Item(nt)
 {
-    this->id = nt.id;
-    this->name = nt.name;
-    this->type = nt.type;
     this->quantity = nt.quantity;
 }
 
 NonTool& NonTool::operator=(const NonTool& nt)
 {
-    this->id = nt.id;
-    this->name = nt.name;
-    this->type = nt.type;
+    Item::operator=(nt);
     this->quantity = nt.quantity;
     return *this;
 }
 
 NonTool::~NonTool()
 {
-    cout<<"NonTool Destroyed"<<endl;
+    // cout<<"NonTool Destroyed"<<endl;
 }
 
 int NonTool::getQuantity()

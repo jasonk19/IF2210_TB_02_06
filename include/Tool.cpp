@@ -10,26 +10,21 @@ Tool::Tool(int id, string name, string type, int durability) : Item(id, name, ty
     this->durability = durability;
 }
 
-Tool::Tool(const Tool& tool)
+Tool::Tool(const Tool& tool) : Item(tool)
 {
-    this->id = tool.id;
-    this->name = tool.name;
-    this->type = tool.type;
     this->durability = tool.durability;
 }
 
 Tool& Tool::operator=(const Tool& tool)
 {
-    this->id = tool.id;
-    this->name = tool.name;
-    this->type = tool.type;
+    Item::operator=(tool);
     this->durability = tool.durability;
     return *this;
 }
 
 Tool::~Tool()
 {
-    cout<<"Tool Destroyed"<<endl;
+    // cout<<"Tool Destroyed"<<endl;
 }
 
 int Tool::getDurability()
