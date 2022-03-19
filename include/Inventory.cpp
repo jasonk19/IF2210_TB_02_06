@@ -23,6 +23,7 @@ Inventory::Inventory()
             InvenContainer[i][j] = SlotInventory();
         }
     }
+    this->quantity = 0;
 }
 
 Inventory::Inventory(const Inventory& inventory)
@@ -34,6 +35,7 @@ Inventory::Inventory(const Inventory& inventory)
             this->InvenContainer[i][j] = inventory.InvenContainer[i][j];
         }
     }
+    this->quantity = inventory.quantity;
 }
 
 Inventory& Inventory::operator=(const Inventory& inventory)
@@ -45,6 +47,7 @@ Inventory& Inventory::operator=(const Inventory& inventory)
             this->InvenContainer[i][j] = inventory.InvenContainer[i][j];    
         }
     }
+    this->quantity = inventory.quantity;
     return *this;
 }
 
@@ -57,10 +60,19 @@ Inventory::~Inventory()
 void Inventory::moveItem(string IDsrc, string IDdest){
     int RowSRC = getRow(convertIDtoInt(IDsrc)), ColSRC = getCol(convertIDtoInt(IDsrc));
     int RowDEST = getRow(convertIDtoInt(IDdest)), ColDEST = getCol(convertIDtoInt(IDdest));
-
-    if (this->InvenContainer[RowSRC][ColSRC].getQuantity() <= this->InvenContainer[RowDEST][ColDEST].getEmptyQuantity()){
+    if ((this->InvenContainer[RowSRC][ColSRC].getNameFromSlotItem() == this->InvenContainer[RowDEST][ColDEST].getNameFromSlotItem()) && (this->InvenContainer[RowSRC][ColSRC].getTypeFromSlotItem() == this->InvenContainer[RowDEST][ColDEST].getTypeFromSlotItem())){
         if (this->InvenContainer[RowSRC][ColSRC].getQuantity() <= this->InvenContainer[RowDEST][ColDEST].getEmptyQuantity()){
-            // AddItem
+            // Add semua Item
+        }
+        else{
+            // Add sebagian Item
         }
     }
+    else{
+        cout << "Maaf kedua item berbeda\n" << endl;
+    }
+}
+
+void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest){
+    // belum gan
 }
