@@ -75,3 +75,21 @@ void SlotInventory::setQuantity(int currentQuantity){
 void SlotInventory::addQuantity(int addQuantity){
     this->quantity += addQuantity;
 }
+
+void SlotInventory::addItemToSlot(Item* item, int Quantity){
+    int CurrentQuantity = Quantity + this->quantity;
+    for (int i = this->quantity; i < CurrentQuantity; i++){
+        this->slotContainer[i] = item[i-this->quantity];
+    }
+    this->quantity = CurrentQuantity;
+}
+
+void SlotInventory::removeItem(int QuantityToRemove){
+    int CurrentQuantity = this->quantity - QuantityToRemove;
+    for (int i = CurrentQuantity; i < this->quantity; i++){
+        this->slotContainer[i].setId(-1);
+        this->slotContainer[i].setName("Unknown");
+        this->slotContainer[i].setType("Unknown");
+    }
+    this->quantity = CurrentQuantity;
+}
