@@ -28,6 +28,8 @@ class SlotInventory
         int getQuantity();
         int getEmptyQuantity();
         Item* getItemInfo();
+        string getNameFromSlotItem();
+        string getTypeFromSlotItem();
 
         // Setter
         void setIDslot(int IDslot);
