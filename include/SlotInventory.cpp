@@ -56,6 +56,14 @@ Item* SlotInventory::getItemInfo() {
     return this->slotContainer;
 }
 
+string SlotInventory::getNameFromSlotItem(){
+    return this->slotContainer[0].getName();
+}
+
+string SlotInventory::getTypeFromSlotItem(){
+    return this->slotContainer[0].getType();
+}
+
 void SlotInventory::setIDslot(int IDslot){
     this->IDslot = IDslot;
 }
