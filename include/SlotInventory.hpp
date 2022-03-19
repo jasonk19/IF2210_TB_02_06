@@ -5,6 +5,8 @@
 
 #include <bits/stdc++.h>
 #include "Item.hpp"
+#include "Tool.hpp"
+#include "NonTool.hpp"
 using namespace std;
 
 class SlotInventory
@@ -25,6 +27,7 @@ class SlotInventory
         int getIDslot();
         int getQuantity();
         int getEmptyQuantity();
+        Item* getItemInfo();
 
         // Setter
         void setIDslot(int IDslot);

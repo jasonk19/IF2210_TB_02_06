@@ -52,6 +52,10 @@ int SlotInventory::getEmptyQuantity(){
     return (capacity - quantity);
 }
 
+Item* SlotInventory::getItemInfo() {
+    return this->slotContainer;
+}
+
 void SlotInventory::setIDslot(int IDslot){
     this->IDslot = IDslot;
 }

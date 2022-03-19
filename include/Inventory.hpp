@@ -23,6 +23,10 @@ class Inventory {
         virtual ~Inventory();
         void moveItem(string IDsrc, string IDdest);
         void moveToCrafting(string IDslotInventory, int N, string* IDcraftdest);
+
+        void addItem(Item* item, int quantity);
+        void removeItem(Item* item, int quantity);
+
 };
 
 #endif

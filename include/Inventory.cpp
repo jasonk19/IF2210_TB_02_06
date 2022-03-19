@@ -68,6 +68,7 @@ void Inventory::moveItem(string IDsrc, string IDdest){
             // Add sebagian Item
         }
     }
+
     else{
         cout << "Maaf kedua item berbeda\n" << endl;
     }
@@ -76,3 +77,29 @@ void Inventory::moveItem(string IDsrc, string IDdest){
 void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest){
     // belum gan
 }
+
+void Inventory::addItem(Item* item, int quantity) {
+    int id = 0;
+    for (int i = 0; i < sizeRow; i++) {
+        for (int j = 0; j < sizeCol; j++) {
+            Item* temp = this->InvenContainer[i][j].getItemInfo();
+            if (this->InvenContainer[i][j].getQuantity() == 0) {
+                this->InvenContainer[i][j] = SlotInventory(item, quantity, id);
+            } else if (temp->getId() == item->getId()) {
+                if (temp->isA<NonTool>()) {
+                    this->InvenContainer[i][j].addQuantity(quantity);
+                } else {
+                    if (j < sizeCol - 1) {
+                        this->InvenContainer[i][j+1] = SlotInventory(item, quantity, id+1);
+                    } else {
+                        if (i < sizeRow - 1) {
+                            this->InvenContainer[i+1][0] = SlotInventory(item, quantity, id+1);
+                        }
+                    }
+                }
+            }
+            id++;
+        }
+    }
+}
+
