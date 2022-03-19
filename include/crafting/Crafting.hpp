@@ -2,6 +2,7 @@
 #define CRAFTING_HPP
 
 #include "../Item.hpp"
+#include "../Inventory.hpp"
 #include "Recipe.hpp"
 
 class Crafting{
@@ -11,7 +12,7 @@ class Crafting{
 
     public:
         // void craft();
-        // void moveToInventory(Inventory inventory, string IDCraftsrc, string IDinvendest);
+        
         void showCrafting();
         Crafting();
         ~Crafting();
@@ -21,6 +22,7 @@ class Crafting{
         Item* getItem(int i, int j) const;
         void setItem(Item* itm, int i, int j);
         vector<Recipe> getRecipes() const;
+        void moveToInventory(Inventory& inventory, string IDCraftsrc, string IDinvendest);
 };
 
 #endif

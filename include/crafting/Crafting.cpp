@@ -134,6 +134,59 @@ Item* Crafting::craft(){
     return craftRes;
 }
 
+void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string IDinvendest){
+   
+    int rowCraft = getRow(convertIDtoInt(IDCraftsrc));
+    int colCraft = getCol(convertIDtoInt(IDCraftsrc));
+    int rowInventory = getRow(convertIDtoInt(IDinvendest);
+    int colInventory = getCol(convertIDtoInt(IDinvendest);
+    Item* temp = this->getItem(rowCraft,colCraft);
+    // Kemaungkinan Kasus
+    // 1. crafting_table kosong -> gabisa move, output pesan
+    if (temp == NULL){
+        cout << "Tidak ada item pada slot crafting " << IDCraftsrc << endl;
+    }
+    else{
+        Item* inventorySlot; // belum ada method akses inventory
+
+
+        // 2. inventory kosong -> bisa move
+        if (inventorySlot == NULL){
+            // lakukan pemindahan barang lgsg
+            inventorySlot = temp;
+            this->setItem(NULL,rowCraft,colCraft);
+        }
+        else{
+            bool sameType = inventorySlot->getName() == temp->getName();
+
+            // 3. inventory keisi item sama -> cek jumlah itemnya < 64 ga?
+            if (sameType){
+                // check jumlah item kalo nontool, kalo tool gabisa dipindah
+                if (temp->isA<Tool>){
+                    cout << "Tidak bisa memindahkan item, Tool tidak bisa ditumpuk" << endl;
+                }
+                else{
+                    NonTool* NT = dynamic_cast<NonTool*>(inventorySlot);
+                    if (NT->getQuantity() < 64){
+                        //move item (belum bisa akses inventory)
+                    }
+                    else{
+                        cout << "Slot inventory " << IDinvendest << " sudah penuh" << endl;
+                    }
+                }
+                
+            }
+            // 4. inventory keisi item beda -> gabisa move, output pesan
+            else{
+                cout << "Tidak bisa memindahkan item, tipe item tidak cocok"
+            }
+            
+            
+}
+        }
+    }
+    
+
 Crafting::~Crafting(){
     for(int i = 0; i < 3; i++){
         for(int j = 0; j < 3; j++){
