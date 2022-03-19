@@ -46,6 +46,7 @@ class Item {
         static map<ItemID,string> itemId_rawTypeMap;   // rawType: LOG, PLANK
         static map<string,int> rawType_rawIdMap;        // memberi id tiap rawType
         static void readItemConfig(string configFile); // menginisialisasi namaItemIdMap dan itemIdItemMap
+        static Item* generateObject(int itemId);
 
         //CTOR, CCTOR, operator=, DTOR
         Item();
@@ -66,7 +67,9 @@ class Item {
 
         virtual void show() = 0;
         template<typename T>
-        bool isA();
+        bool isA(){
+            return (dynamic_cast<T*>(this) != NULL);
+        }
 };
 
 #endif

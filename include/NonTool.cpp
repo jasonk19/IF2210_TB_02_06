@@ -24,7 +24,7 @@ NonTool& NonTool::operator=(const NonTool& nt)
 
 NonTool::~NonTool()
 {
-    // cout<<"NonTool Destroyed"<<endl;
+     //cout<<"NonTool Destroyed"<<endl;
 }
 
 int NonTool::getQuantity()

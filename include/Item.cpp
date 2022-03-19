@@ -1,6 +1,6 @@
 #include "Item.hpp"
-//#include "Tool.hpp"
-//#include "NonTool.hpp"
+#include "Tool.hpp"
+#include "NonTool.hpp"
 #include <fstream>
 
 map<string,ItemID> Item::nama_ItemIdMap;
@@ -14,11 +14,11 @@ void Item::readItemConfig(string configFile){
     string name, type, toolnontool;
     while(config >> id >> name >> type >> toolnontool){
         Item::nama_ItemIdMap.insert({name, (ItemID)id});
-        //if(toolnontool == "TOOL"){
-        //    Item::itemId_ItemMap.insert({(ItemID) id, new Tool(id, name, toolnontool, 10)});
-        //} else{
-        //    Item::itemId_ItemMap.insert({(ItemID) id, new NonTool(id, name, toolnontool, 1)});
-        //}
+        if(toolnontool == "TOOL"){
+            Item::itemId_ItemMap.insert({(ItemID) id, new Tool(id, name, toolnontool, 10)});
+        } else{
+            Item::itemId_ItemMap.insert({(ItemID) id, new NonTool(id, name, toolnontool, 1)});
+        }
         if(type != "-"){
             Item::itemId_rawTypeMap.insert({(ItemID)id, type});
             if(Item::rawType_rawIdMap.find(type) == Item::rawType_rawIdMap.end()){
@@ -28,6 +28,15 @@ void Item::readItemConfig(string configFile){
     }
 
     config.close();
+}
+
+Item* Item::generateObject(int itemId){
+    Item* temp = Item::itemId_ItemMap.find((ItemID)itemId)->second;
+    if(temp->isA<Tool>()){
+        return new Tool(*dynamic_cast<Tool*>(temp));
+    } else{
+        return new NonTool(*dynamic_cast<NonTool*>(temp));
+    }
 }
 
 Item::Item()
@@ -92,10 +101,4 @@ void Item::setName(string name)
 void Item::setType(string type)
 {
     this->type = type;
-}
-
-template<typename T>
-bool Item::isA()
-{
-    return (dynamic_cast<T*>(this) != NULL);
 }

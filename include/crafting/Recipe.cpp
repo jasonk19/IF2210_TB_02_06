@@ -163,6 +163,8 @@ void Recipe::displayRecipe() const{
         }
         cout << '\n';
     }
+    cout << "--> " << this->resultId << 'x' << this->resultCount << '\n'; 
+    cout << "\n";
 }
 
 bool Recipe::match(const Recipe& other) const{
