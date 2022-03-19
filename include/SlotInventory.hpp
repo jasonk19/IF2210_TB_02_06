@@ -37,6 +37,8 @@ class SlotInventory
         
         // Adder
         void addQuantity(int addQuantity);
+        void addItemToSlot(Item* item, int Quantity);
+        void removeItem(int QuantityToRemove);
 };
 
 #endif
