@@ -1,8 +1,12 @@
 #include "Item.hpp"
+//#include "Tool.hpp"
+//#include "NonTool.hpp"
 #include <fstream>
 
 map<string,ItemID> Item::nama_ItemIdMap;
 map<ItemID,Item*> Item::itemId_ItemMap;
+map<ItemID,string> Item::itemId_rawTypeMap;
+map<string,int> Item::rawType_rawIdMap;
 
 void Item::readItemConfig(string configFile){
     ifstream config(configFile);
@@ -10,7 +14,17 @@ void Item::readItemConfig(string configFile){
     string name, type, toolnontool;
     while(config >> id >> name >> type >> toolnontool){
         Item::nama_ItemIdMap.insert({name, (ItemID)id});
-        //Item::itemId_ItemMap.insert({(ItemID)id, new Item(id, name, toolnontool)});
+        //if(toolnontool == "TOOL"){
+        //    Item::itemId_ItemMap.insert({(ItemID) id, new Tool(id, name, toolnontool, 10)});
+        //} else{
+        //    Item::itemId_ItemMap.insert({(ItemID) id, new NonTool(id, name, toolnontool, 1)});
+        //}
+        if(type != "-"){
+            Item::itemId_rawTypeMap.insert({(ItemID)id, type});
+            if(Item::rawType_rawIdMap.find(type) == Item::rawType_rawIdMap.end()){
+                Item::rawType_rawIdMap.insert({type, 101 + Item::rawType_rawIdMap.size()});
+            }
+        }
     }
 
     config.close();

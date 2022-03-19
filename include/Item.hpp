@@ -43,6 +43,8 @@ class Item {
     public:
         static map<string,ItemID> nama_ItemIdMap; // mapping nama dan enum ItemID, dari config
         static map<ItemID,Item*> itemId_ItemMap;  // menyimpan objek Item, jika ingin menambah suatu objek tinggal copy dari sini
+        static map<ItemID,string> itemId_rawTypeMap;   // rawType: LOG, PLANK
+        static map<string,int> rawType_rawIdMap;        // memberi id tiap rawType
         static void readItemConfig(string configFile); // menginisialisasi namaItemIdMap dan itemIdItemMap
 
         //CTOR, CCTOR, operator=, DTOR

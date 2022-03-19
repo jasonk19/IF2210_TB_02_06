@@ -15,12 +15,12 @@ class Recipe{
     public:
         Recipe();
         Recipe(string recipeFile);
-        Recipe(vector< vector<Item> > recipe);
+        Recipe(vector< vector<ItemID> > recipe);  // Membuat recipe berdasarkan vector 2D ItemID
         int getRowEff() const;
         int getColEff() const;
         ItemID getResultId() const;
         int getResultCount() const;
-        bool match(const Recipe& match) const;
+        bool match(const Recipe& other) const;
         void displayRecipe() const;
 };
 

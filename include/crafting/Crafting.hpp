@@ -8,7 +8,7 @@ class Crafting{
     protected: 
         // Atau recipe string aja mungkin? biar baca confignya gampang?
         // String recipe[3][3];
-        vector<Recipe> recipe;
+        vector<Recipe> recipes;
         Item* crafting_table[3][3];
 
     public:
