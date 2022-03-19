@@ -2,6 +2,7 @@
 #define _INVENTORY_HPP_
 
 #include "SlotInventory.hpp"
+#include "crafting/Crafting.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -14,13 +15,14 @@ class Inventory {
         SlotInventory** InvenContainer;
         const int sizeRow = 3;
         const int sizeCol = 9;
+        int quantity;
     public:
         Inventory();
         Inventory(const Inventory& inventory);
         Inventory& operator=(const Inventory& Inventory);
         virtual ~Inventory();
         void moveItem(string IDsrc, string IDdest);
-        void moveToCrafting();
+        void moveToCrafting(string IDslotInventory, int N, string* IDcraftdest);
 };
 
 #endif
