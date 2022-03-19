@@ -61,12 +61,21 @@ void Inventory::moveItem(string IDsrc, string IDdest){
     int RowSRC = getRow(convertIDtoInt(IDsrc)), ColSRC = getCol(convertIDtoInt(IDsrc));
     int RowDEST = getRow(convertIDtoInt(IDdest)), ColDEST = getCol(convertIDtoInt(IDdest));
     if ((this->InvenContainer[RowSRC][ColSRC].getNameFromSlotItem() == this->InvenContainer[RowDEST][ColDEST].getNameFromSlotItem()) && (this->InvenContainer[RowSRC][ColSRC].getTypeFromSlotItem() == this->InvenContainer[RowDEST][ColDEST].getTypeFromSlotItem())){
+        // Move
+        int QuantityToMove;
         if (this->InvenContainer[RowSRC][ColSRC].getQuantity() <= this->InvenContainer[RowDEST][ColDEST].getEmptyQuantity()){
-            // Add semua Item
+
+            // Move seluruh Item dari src ke dest
+            QuantityToMove = this->InvenContainer[RowSRC][ColSRC].getQuantity();
         }
         else{
-            // Add sebagian Item
+            // Move sebagian Item
+            QuantityToMove = this->InvenContainer[RowDEST][ColDEST].getEmptyQuantity();
         }
+        // Add
+        this->InvenContainer[RowDEST][ColDEST].addItemToSlot(this->InvenContainer[RowSRC][ColSRC].getItemInfo(), QuantityToMove);
+        // Remove
+        this->InvenContainer[RowSRC][ColSRC].removeItem(QuantityToMove);
     }
 
     else{
