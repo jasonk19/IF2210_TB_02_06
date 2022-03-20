@@ -180,11 +180,9 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
             else{
                 cout << "Tidak bisa memindahkan item, tipe item tidak cocok";
             }
-            
-            
-}
         }
     }
+}
     
 
 Crafting::~Crafting(){
