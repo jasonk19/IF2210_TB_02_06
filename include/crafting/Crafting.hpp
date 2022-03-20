@@ -8,8 +8,7 @@
 class Crafting{
     protected: 
         vector<Recipe> recipes;
-        Item *crafting_table[3][3];
-
+        Item* crafting_table[3][3];
 
     public:
         // void craft();
@@ -21,7 +20,7 @@ class Crafting{
         Item* craft();          // craft dengan mengurangi item, implementasi memanggil craftSimulate
         Item* craftSimulate();  // craftSimulate adalah craft dengan tidak mengurangi item, untuk showCrafting
         Item* getItem(int i, int j) const;
-        void setItem(Item *itm, int i, int j);
+        void setItem(Item* itm, int i, int j);
         vector<Recipe> getRecipes() const;
         void moveToInventory(Inventory& inventory, string IDCraftsrc, string IDinvendest);
 };
