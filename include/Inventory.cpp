@@ -85,21 +85,20 @@ void Inventory::moveItem(string IDsrc, string IDdest){
 
 void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting table){
     // belum gan
-    int Row = getRow(convertIDtoInt(IDslotInventory)), Col = getCol(convertIDtoInt(IDslotInventory)); int ColCraftTable = getCol(N-1), RowCraftTable = getRow(N-1);
+    int Row = getRow(convertIDtoInt(IDslotInventory)), Col = getCol(convertIDtoInt(IDslotInventory)); 
     int RowCraftDest, ColCraftDest;
+    int index = N;
     if (this->InvenContainer[Row][Col].getQuantity() >= N){
         if (N < 9){
-            for (int i = 0; i < RowCraftTable; i++){
-                for (int j = 0; j < ColCraftTable; j++){
-                    N--;
-                    RowCraftDest = getRow(convertIDtoInt(IDcraftdest[N]));
-                    ColCraftDest = getCol(convertIDtoInt(IDcraftdest[N]));
-                    // Add item to crafting
-                    table.setItem(this->InvenContainer[Row][Col].getItemInfo(), i, j);
-                }
+            for (int i = N-1; i >= 0; i--){
+                index--;
+                RowCraftDest = getRow(convertIDtoInt(IDcraftdest[index]));
+                ColCraftDest = getCol(convertIDtoInt(IDcraftdest[index]));
+                // Add item to crafting
+                table.setItem(this->InvenContainer[Row][Col].getItemInfo(), RowCraftDest, ColCraftDest);
             }
-            // Remove Item yang telah di add ke crafting
-            // this->InvenContainer[Row][Col].removeItem(N);
+            // Remove Item
+            this->InvenContainer[Row][Col].removeItem(N);
         }
     }
 }
