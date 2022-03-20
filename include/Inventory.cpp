@@ -57,6 +57,7 @@ Inventory::~Inventory()
     // cout << "Inventory has been Destroyed" << endl;
 }
 
+// moveItem
 void Inventory::moveItem(string IDsrc, string IDdest){
     int RowSRC = getRow(convertIDtoInt(IDsrc)), ColSRC = getCol(convertIDtoInt(IDsrc));
     int RowDEST = getRow(convertIDtoInt(IDdest)), ColDEST = getCol(convertIDtoInt(IDdest));
@@ -83,8 +84,8 @@ void Inventory::moveItem(string IDsrc, string IDdest){
     }
 }
 
+// moveToCrafting
 void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting table){
-    // belum gan
     int Row = getRow(convertIDtoInt(IDslotInventory)), Col = getCol(convertIDtoInt(IDslotInventory)); 
     int RowCraftDest, ColCraftDest;
     int index = N;
@@ -103,6 +104,7 @@ void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdes
     }
 }
 
+// containItem
 bool Inventory::containItem(Item* item) {
     for (int i = 0; i < sizeRow; i++) {
         for (int j = 0; j < sizeCol; j++) {
@@ -115,6 +117,7 @@ bool Inventory::containItem(Item* item) {
     return false;
 }
 
+// addItem
 void Inventory::addItem(Item* item, int quantity) {
     int id = 0;
     for (int i = 0; i < sizeRow; i++) {
@@ -145,6 +148,7 @@ void Inventory::addItem(Item* item, int quantity) {
     }
 }
 
+// discardItem
 void Inventory::discardItem(string id, int quantity) {
     int idSlot = convertIDtoInt(id);
 
