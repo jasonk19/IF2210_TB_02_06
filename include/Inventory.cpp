@@ -104,27 +104,64 @@ void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdes
     }
 }
 
+bool Inventory::containItem(Item* item) {
+    for (int i = 0; i < sizeRow; i++) {
+        for (int j = 0; j < sizeCol; j++) {
+            Item* temp = this->InvenContainer[i][j].getItemInfo();
+            if (temp->getName() == item->getName() && this->InvenContainer[i][j].getQuantity() < 64) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void Inventory::addItem(Item* item, int quantity) {
     int id = 0;
     for (int i = 0; i < sizeRow; i++) {
         for (int j = 0; j < sizeCol; j++) {
-            Item* temp = this->InvenContainer[i][j].getItemInfo();
-            if (this->InvenContainer[i][j].getQuantity() == 0) {
-                this->InvenContainer[i][j] = SlotInventory(item, quantity, id);
-            } else if (temp->getId() == item->getId()) {
-                if (temp->isA<NonTool>()) {
-                    this->InvenContainer[i][j].addQuantity(quantity);
-                } else {
-                    if (j < sizeCol - 1) {
-                        this->InvenContainer[i][j+1] = SlotInventory(item, quantity, id+1);
-                    } else {
-                        if (i < sizeRow - 1) {
-                            this->InvenContainer[i+1][0] = SlotInventory(item, quantity, id+1);
+            if (quantity != 0) {
+                Item* temp = this->InvenContainer[i][j].getItemInfo();
+                if (this->InvenContainer[i][j].getQuantity() == 0 && !containItem(item)) {
+                    this->InvenContainer[i][j] = SlotInventory(item, quantity, id);
+                    quantity = 0;
+                } else if (temp->getName() == item->getName()) {
+                    if (temp->isA<NonTool>()) {
+                        if (this->InvenContainer[i][j].getQuantity() + quantity <= 64) {
+                            this->InvenContainer[i][j].addItemToSlot(item, quantity);
+                            quantity = 0;
+                        } else {
+                            int quantityLeft = this->InvenContainer[i][j].getQuantity() + quantity;
+                            quantityLeft -= 64;
+                            quantity -= quantityLeft;
+                            this->InvenContainer[i][j].addItemToSlot(item, quantity);
                         }
                     }
                 }
+            } else {
+                return;
             }
             id++;
+        }
+    }
+}
+
+void Inventory::discardItem(string id, int quantity) {
+    int idSlot = convertIDtoInt(id);
+
+    for (int i = 0; i < sizeRow; i++) {
+        for (int j = 0; j < sizeCol; j++) {
+            Item* temp = this->InvenContainer[i][j].getItemInfo();
+            if (this->InvenContainer[i][j].getIDslot() == idSlot) {
+                if (temp->isA<NonTool>()) {
+                    if (quantity <= this->InvenContainer[i][j].getQuantity()) {
+                        this->InvenContainer[i][j].removeItem(quantity);
+                    }
+                    if (this->InvenContainer[i][j].getQuantity() <= 0) {
+                        this->InvenContainer[i][j] = SlotInventory();
+                    }
+                }
+            }
         }
     }
 }

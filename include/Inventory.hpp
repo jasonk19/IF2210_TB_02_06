@@ -24,8 +24,11 @@ class Inventory {
         void moveItem(string IDsrc, string IDdest);
         void moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting table);
 
+        bool containItem(Item* item);
         void addItem(Item* item, int quantity);
         void removeItem(int quantity);
+        void discardItem(string id, int quantity);
+
 };
 
 #endif
