@@ -166,3 +166,19 @@ void Inventory::discardItem(string id, int quantity) {
     }
 }
 
+// Export inventory
+void Inventory::exportInventory(string outputPath) {
+    ofstream outputFile(outputPath);
+
+    for (int i = 0; i < sizeRow; i++) {
+        for (int j = 0; j < sizeCol; j++) {
+            Item* temp = this->InvenContainer[i][j].getItemInfo();
+            if (temp->isA<NonTool>()) {
+                outputFile << temp->getId() << ":" << this->InvenContainer[i][j].getQuantity() << endl;
+            } else {
+                Tool* t = dynamic_cast<Tool*>(temp);
+                outputFile << t->getId() << ":" << t->getDurability() << endl;
+            }
+        }
+    }
+}

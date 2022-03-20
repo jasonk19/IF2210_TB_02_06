@@ -29,6 +29,9 @@ class Inventory {
         void removeItem(int quantity);
         void discardItem(string id, int quantity);
 
+        // Export Inventory
+        void exportInventory(string outputPath);
+
 };
 
 #endif
