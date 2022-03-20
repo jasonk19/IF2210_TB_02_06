@@ -28,9 +28,11 @@ class Inventory {
         void addItem(Item* item, int quantity);
         void discardItem(string id, int quantity);
 
+        // Show Inventory
+        void showInventory();
+
         // Export Inventory
         void exportInventory(string outputPath);
-
 };
 
 #endif

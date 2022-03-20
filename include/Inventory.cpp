@@ -169,6 +169,27 @@ void Inventory::discardItem(string id, int quantity) {
     }
 }
 
+// Show Inventory
+void Inventory::showInventory() {
+    int id = 0;
+    for (int i = 0; i < sizeRow; i++) {
+        for (int j = 0; j < sizeCol; j++) {
+            Item* temp = this->InvenContainer[i][j].getItemInfo();
+            if (this->InvenContainer[i][j].getQuantity() == 0) {
+                cout << "[ I " << id << " ] ";
+            } else if (temp->isA<NonTool>()) {
+                NonTool* nt = dynamic_cast<NonTool*>(temp);
+                cout << "[ " << nt->getName() << "," << this->InvenContainer[i][j].getQuantity() << " ] ";
+            } else {
+                Tool* t = dynamic_cast<Tool*>(temp);
+                cout << "[ " << t->getName() << "," << t->getDurability() << " ] ";
+            }
+            id++;
+        }
+        cout << endl;
+    }
+}
+
 // Export inventory
 void Inventory::exportInventory(string outputPath) {
     ofstream outputFile(outputPath);
