@@ -138,8 +138,8 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
    
     int rowCraft = getRow(convertIDtoInt(IDCraftsrc));
     int colCraft = getCol(convertIDtoInt(IDCraftsrc));
-    int rowInventory = getRow(convertIDtoInt(IDinvendest);
-    int colInventory = getCol(convertIDtoInt(IDinvendest);
+    int rowInventory = getRow(convertIDtoInt(IDinvendest));
+    int colInventory = getCol(convertIDtoInt(IDinvendest));
     Item* temp = this->getItem(rowCraft,colCraft);
     // Kemaungkinan Kasus
     // 1. crafting_table kosong -> gabisa move, output pesan
@@ -162,7 +162,7 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
             // 3. inventory keisi item sama -> cek jumlah itemnya < 64 ga?
             if (sameType){
                 // check jumlah item kalo nontool, kalo tool gabisa dipindah
-                if (temp->isA<Tool>){
+                if (temp->isA<Tool>()){
                     cout << "Tidak bisa memindahkan item, Tool tidak bisa ditumpuk" << endl;
                 }
                 else{
@@ -178,7 +178,7 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
             }
             // 4. inventory keisi item beda -> gabisa move, output pesan
             else{
-                cout << "Tidak bisa memindahkan item, tipe item tidak cocok"
+                cout << "Tidak bisa memindahkan item, tipe item tidak cocok";
             }
             
             
