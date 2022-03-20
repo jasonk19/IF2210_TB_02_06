@@ -26,7 +26,6 @@ class Inventory {
 
         bool containItem(Item* item);
         void addItem(Item* item, int quantity);
-        void removeItem(int quantity);
         void discardItem(string id, int quantity);
 
         // Export Inventory
