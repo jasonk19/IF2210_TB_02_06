@@ -60,7 +60,7 @@ Inventory::~Inventory()
 void Inventory::moveItem(string IDsrc, string IDdest){
     int RowSRC = getRow(convertIDtoInt(IDsrc)), ColSRC = getCol(convertIDtoInt(IDsrc));
     int RowDEST = getRow(convertIDtoInt(IDdest)), ColDEST = getCol(convertIDtoInt(IDdest));
-    if ((this->InvenContainer[RowSRC][ColSRC].getNameFromSlotItem() == this->InvenContainer[RowDEST][ColDEST].getNameFromSlotItem()) && (this->InvenContainer[RowSRC][ColSRC].getTypeFromSlotItem() == this->InvenContainer[RowDEST][ColDEST].getTypeFromSlotItem())){
+    if ((this->InvenContainer[RowSRC][ColSRC].getNameFromSlotItem() == this->InvenContainer[RowDEST][ColDEST].getNameFromSlotItem()) && (this->InvenContainer[RowSRC][ColSRC].getTypeFromSlotItem() == this->InvenContainer[RowDEST][ColDEST].getTypeFromSlotItem()) && ((this->InvenContainer[RowSRC][ColSRC].getItemInfo())->isA<NonTool>()) && ((this->InvenContainer[RowDEST][ColDEST].getItemInfo())->isA<NonTool>())){
         // Move
         int QuantityToMove;
         if (this->InvenContainer[RowSRC][ColSRC].getQuantity() <= this->InvenContainer[RowDEST][ColDEST].getEmptyQuantity()){
@@ -83,8 +83,25 @@ void Inventory::moveItem(string IDsrc, string IDdest){
     }
 }
 
-void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest){
+void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting table){
     // belum gan
+    int Row = getRow(convertIDtoInt(IDslotInventory)), Col = getCol(convertIDtoInt(IDslotInventory)); int ColCraftTable = getCol(N-1), RowCraftTable = getRow(N-1);
+    int RowCraftDest, ColCraftDest;
+    if (this->InvenContainer[Row][Col].getQuantity() >= N){
+        if (N < 9){
+            for (int i = 0; i < RowCraftTable; i++){
+                for (int j = 0; j < ColCraftTable; j++){
+                    N--;
+                    RowCraftDest = getRow(convertIDtoInt(IDcraftdest[N]));
+                    ColCraftDest = getCol(convertIDtoInt(IDcraftdest[N]));
+                    // Add item to crafting
+                    table.setItem(this->InvenContainer[Row][Col].getItemInfo(), i, j);
+                }
+            }
+            // Remove Item yang telah di add ke crafting
+            // this->InvenContainer[Row][Col].removeItem(N);
+        }
+    }
 }
 
 void Inventory::addItem(Item* item, int quantity) {
