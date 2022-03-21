@@ -2,6 +2,14 @@
 #include "../NonTool.hpp"
 #include "Crafting.hpp"
 
+int getRowCraft(int integer){
+    return (int)(integer/3);
+}
+
+int getColCraft(int integer){
+    return (integer % 3);
+}
+
 Item* Crafting::getItem(int i, int j) const{
     return this->crafting_table[i][j];
 }
@@ -136,10 +144,10 @@ Item* Crafting::craft(){
 
 void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string IDinvendest){
    
-    int rowCraft = getRow(convertIDtoInt(IDCraftsrc));
-    int colCraft = getCol(convertIDtoInt(IDCraftsrc));
-    int rowInventory = getRow(convertIDtoInt(IDinvendest));
-    int colInventory = getCol(convertIDtoInt(IDinvendest));
+    int rowCraft = getRowCraft(convertIDtoInt(IDCraftsrc));
+    int colCraft = getColCraft(convertIDtoInt(IDCraftsrc));
+    int rowInventory = getRowInven(convertIDtoInt(IDinvendest));
+    int colInventory = getColInven(convertIDtoInt(IDinvendest));
     Item* temp = this->getItem(rowCraft,colCraft);
     // Kemaungkinan Kasus
     // 1. crafting_table kosong -> gabisa move, output pesan
