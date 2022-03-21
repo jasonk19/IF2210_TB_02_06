@@ -59,8 +59,8 @@ Inventory::~Inventory()
 
 // moveItem
 void Inventory::moveItem(string IDsrc, string IDdest){
-    int RowSRC = getRow(convertIDtoInt(IDsrc)), ColSRC = getCol(convertIDtoInt(IDsrc));
-    int RowDEST = getRow(convertIDtoInt(IDdest)), ColDEST = getCol(convertIDtoInt(IDdest));
+    int RowSRC = getRowInven(convertIDtoInt(IDsrc)), ColSRC = getColInven(convertIDtoInt(IDsrc));
+    int RowDEST = getRowInven(convertIDtoInt(IDdest)), ColDEST = getColInven(convertIDtoInt(IDdest));
     if ((this->InvenContainer[RowSRC][ColSRC].getNameFromSlotItem() == this->InvenContainer[RowDEST][ColDEST].getNameFromSlotItem()) && (this->InvenContainer[RowSRC][ColSRC].getTypeFromSlotItem() == this->InvenContainer[RowDEST][ColDEST].getTypeFromSlotItem()) && ((this->InvenContainer[RowSRC][ColSRC].getItemInfo())->isA<NonTool>()) && ((this->InvenContainer[RowDEST][ColDEST].getItemInfo())->isA<NonTool>())){
         // Move
         int QuantityToMove;
@@ -86,15 +86,15 @@ void Inventory::moveItem(string IDsrc, string IDdest){
 
 // moveToCrafting
 void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting table){
-    int Row = getRow(convertIDtoInt(IDslotInventory)), Col = getCol(convertIDtoInt(IDslotInventory)); 
+    int Row = getRowInven(convertIDtoInt(IDslotInventory)), Col = getColInven(convertIDtoInt(IDslotInventory)); 
     int RowCraftDest, ColCraftDest;
     int index = N;
     if (this->InvenContainer[Row][Col].getQuantity() >= N){
         if (N < 9){
             for (int i = N-1; i >= 0; i--){
                 index--;
-                RowCraftDest = getRow(convertIDtoInt(IDcraftdest[index]));
-                ColCraftDest = getCol(convertIDtoInt(IDcraftdest[index]));
+                RowCraftDest = getRowCraft(convertIDtoInt(IDcraftdest[index]));
+                ColCraftDest = getColCraft(convertIDtoInt(IDcraftdest[index]));
                 // Add item to crafting
                 table.setItem(this->InvenContainer[Row][Col].getItemInfo(), RowCraftDest, ColCraftDest);
             }
