@@ -5,6 +5,9 @@
 #include "../Inventory.hpp"
 #include "Recipe.hpp"
 
+int getRowCraft(int integer);
+int getColCraft(int integer);
+
 class Crafting{
     protected: 
         vector<Recipe> recipes;
