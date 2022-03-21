@@ -7,8 +7,8 @@
 using namespace std;
 
 int convertIDtoInt(string ID);
-int getRow(int integer);
-int getCol(int integer);
+int getRowInven(int integer);
+int getColInven(int integer);
 
 class Inventory {
     protected:
