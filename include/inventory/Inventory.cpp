@@ -143,6 +143,17 @@ void Inventory::discardItem(string id, int quantity) {
   }
 }
 
+void Inventory::useTool(string id) {
+  int idSlot = getIdFromString(id);
+
+  Item* temp = this->InvenContainer[idSlot].getItem();
+
+  if (temp->isA<Tool>()) {
+    Tool* t = dynamic_cast<Tool*>(temp);
+    t->setDurability(t->getDurability() - 1);
+  }
+}
+
 void Inventory::showInventory() {
     int id = 0;
     for (int i = 0; i < 27; i++) {

@@ -20,6 +20,7 @@ class Inventory {
     bool containItem(Item* item);
     void addItem(Item* item, int quantity = 1);
     void discardItem(string id, int quantity);
+    void useTool(string id);
 
     // Show Inventory
     void showInventory();
