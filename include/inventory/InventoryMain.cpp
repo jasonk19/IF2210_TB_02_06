@@ -18,45 +18,20 @@ int main() {
 
   i.showInventory();
 
-  i.addItem(oakPlank, 20);
+  i.addItem(sprucePlank, 60);
+  i.discardItem("I0", 10);
 
   i.showInventory();
 
-  i.addItem(stick, 50);
-
-  i.showInventory();
-
-  i.discardItem("I0", 12);
-
-  i.showInventory();
-
-  cout << i.getTotalQuantity(stick) << endl;
-
+  i.addItem(sprucePlank, 60);
+  i.addItem(oakPlank, 120);
+  i.addItem(sword);
+  i.addItem(sword);
+  i.addItem(sword);
   i.addItem(sword);
 
   i.showInventory();
 
-  i.discardItem("I1", 20);
-
-  i.showInventory();
-
-  i.addItem(sprucePlank, 40);
-
-  i.showInventory();
-
-  i.addItem(sprucePlank, 120);
-
-  i.showInventory();
-
-  i.addItem(stick, 50);
-
-  i.showInventory();
-
-  i.addItem(stick, 80);
-
-  i.showInventory();
-
-  cout << "Export Inventory" << endl;
   i.testExport();
 
   return 0;

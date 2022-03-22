@@ -81,11 +81,13 @@ int Inventory::getTotalQuantity(Item* item) {
 }
 
 bool Inventory::containItem(Item* item) {
-  for (int i = 0; i < 27; i++) {
-    Item* temp = InvenContainer[i].getItem();
-    if (temp->isA<NonTool>()) {
-      if (temp->getId() == item->getId() && InvenContainer[i].getQuantity() < 64) {
-        return true;
+  if (item->isA<NonTool>()) {
+    for (int i = 0; i < 27; i++) {
+      Item* temp = InvenContainer[i].getItem();
+      if (temp != NULL) {
+        if (temp->getId() == item->getId() && InvenContainer[i].getQuantity() < 64) {
+          return true;
+        }
       }
     }
   }
@@ -105,17 +107,19 @@ void Inventory::addItem(Item* item, int quantity) {
           this->InvenContainer[i].setSlot(item, id, quantity);
           quantity = 0;
         }
-      } else if (temp->getId() == item->getId()) {
-        if (temp->isA<NonTool>()) {
-          if (this->InvenContainer[i].getQuantity() + quantity <= 64) {
-            this->InvenContainer[i].addQuantity(quantity);
-            quantity = 0;
-          } else {
-            int quantityLeft = this->InvenContainer[i].getQuantity() + quantity;
-            quantityLeft -= 64;
-            quantity -= quantityLeft;
-            this->InvenContainer[i].addQuantity(quantity);
-            quantity = quantityLeft;
+      } else if (temp != NULL && containItem(item)) {
+        if (temp->getId() == item->getId()) {
+          if (temp->isA<NonTool>()) {
+            if (this->InvenContainer[i].getQuantity() + quantity <= 64) {
+              this->InvenContainer[i].addQuantity(quantity);
+              quantity = 0;
+            } else {
+              int quantityLeft = this->InvenContainer[i].getQuantity() + quantity;
+              quantityLeft -= 64;
+              quantity -= quantityLeft;
+              this->InvenContainer[i].addQuantity(quantity);
+              quantity = quantityLeft;
+            }
           }
         }
       }
