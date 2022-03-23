@@ -51,7 +51,7 @@ Inventory& Inventory::operator=(const Inventory& inventory)
     return *this;
 }
 
-SlotInventory getInvenContainer(string ID){
+SlotInventory Inventory::getInvenContainer(string ID){
     int convertID = convertIDtoInt(ID);
     int Row = getRowInven(convertID);
     int Col = getColInven(convertID);
