@@ -8,11 +8,11 @@ int convertIDtoInt(string ID){
     return temp;
 }
 
-int getRow(int integer){
+int getRowInven(int integer){
     return (int)(integer/9);
 }
 
-int getCol(int integer){
+int getColInven(int integer){
     return (integer % 9);
 }
 
@@ -51,6 +51,12 @@ Inventory& Inventory::operator=(const Inventory& inventory)
     return *this;
 }
 
+SlotInventory getInvenContainer(string ID){
+    int convertID = convertIDtoInt(ID);
+    int Row = getRowInven(convertID);
+    int Col = getColInven(convertID);
+    return this->InvenContainer[Row][Col];
+}
 
 Inventory::~Inventory()
 {
