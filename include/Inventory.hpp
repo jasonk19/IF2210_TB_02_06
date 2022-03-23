@@ -21,6 +21,10 @@ class Inventory {
         Inventory(const Inventory& inventory);
         Inventory& operator=(const Inventory& Inventory);
         virtual ~Inventory();
+        
+        // Getter
+        SlotInventory getInvenContainer(string ID);
+
         void moveItem(string IDsrc, string IDdest);
         void moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting table);
 
