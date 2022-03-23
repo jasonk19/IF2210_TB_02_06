@@ -76,6 +76,12 @@ void SlotInventory::addQuantity(int addQuantity){
     this->quantity += addQuantity;
 }
 
+void SlotInventory::addAnItemToSlot(Item item){
+    int CurrentQuantity = this->quantity;
+    this->slotContainer[quantity] = item;
+    this->quantity = CurrentQuantity;
+}
+
 void SlotInventory::addItemToSlot(Item* item, int Quantity){
     int CurrentQuantity = Quantity + this->quantity;
     for (int i = this->quantity; i < CurrentQuantity; i++){
