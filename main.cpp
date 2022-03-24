@@ -110,14 +110,43 @@ int main() {
       }
     } 
 
-    else if (command == "CRAFT") {
+    else if (command == "CRAFT") 
+    {
       Item* craftResult = crafting.craft();
-      if(craftResult == NULL){
+      if(craftResult == NULL)
+      {
         cout << "Crafting Gagal!\nTidak resep yang cocok\n\n";
-      } else{
-        // TODO: move craftResult to Inventory
+      } 
+
+      else
+      {
+         if (craftResult->isA<NonTool>())
+         {
+             inventory.addItem(craftResult, dynamic_cast<NonTool*>(craftResult)->getQuantity());
+         }
+         else
+         {
+            inventory.addItem(craftResult);
+         }
+         cout<<"Crafting Success !"<<endl;
       }
-    } 
+    }
+
+    else if (command == "USE")
+    {
+      string id;
+      cin>>id;
+      inventory.useTool(id);
+      cout<<"Item used"<<endl;
+    }
+
+    else if (command == "EXPORT")
+    {
+      string filename;
+      cin>>filename;
+      inventory.exportInventory(filename);
+      cout<<"File exported to filename"<<endl;
+    }
 
     else {
       // todo

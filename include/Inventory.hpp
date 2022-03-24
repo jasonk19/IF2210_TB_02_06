@@ -21,7 +21,7 @@ class Inventory {
     // Getter
     int getIdFromString(string id);
     int getTotalQuantity(Item* item);
-    SlotInventory getSlot(int id);
+    SlotInventory& getSlot(int id);
 
     bool containItem(Item* item);
     void addItem(Item* item, int quantity = 1);

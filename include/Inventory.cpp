@@ -13,7 +13,7 @@ Inventory::Inventory() {
   this->InvenContainer = new SlotInventory[27];
 }
 
-SlotInventory Inventory :: getSlot(int id){
+SlotInventory& Inventory :: getSlot(int id){
   return this->InvenContainer[id];
 }
 int Inventory::getIdFromString(string id) {

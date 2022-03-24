@@ -39,11 +39,11 @@ Item* SlotInventory::getItem() {
 }
 
 string SlotInventory::getNameFromSlotItem(){
-    return this->slotcontainer[0].getName();
+    return this->slotcontainer->getName();
 }
 
 string SlotInventory::getTypeFromSlotItem(){
-    return this->slotcontainer[0].getType();
+    return this->slotcontainer->getType();
 }
 
 void SlotInventory::setEmptySlot() {

@@ -15,7 +15,12 @@ Item* Crafting::getItem(int i, int j) const{
 }
 
 void Crafting::setItem(Item* itm, int i, int j){
-    this->crafting_table[i][j] = itm;
+    if(itm->isA<Tool>()){
+        this->crafting_table[i][j] = new Tool(*dynamic_cast<Tool*>(itm));
+    } else{
+        this->crafting_table[i][j] = new NonTool(*dynamic_cast<NonTool*>(itm));
+    }
+    
 }
 
 vector<Recipe> Crafting::getRecipes() const{
@@ -155,7 +160,7 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
         cout << "Tidak ada item pada slot crafting " << IDCraftsrc << endl;
     }
     else{
-        SlotInventory inventorySlot = inventory.getSlot(idInvent);
+        SlotInventory& inventorySlot = inventory.getSlot(idInvent);
 
         // 2. inventory kosong -> bisa move
         if (inventorySlot.getQuantity() == 0){
@@ -175,6 +180,7 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
                 else{
                     if (inventorySlot.getEmptyQuantity() >= 1){
                         inventorySlot.addItemToSlot(temp,1);
+                        this->setItem(NULL, rowCraft, colCraft);
                     }
                     else{
                         cout << "Slot inventory " << IDinvendest << " sudah penuh" << endl;
