@@ -28,7 +28,7 @@ class Inventory {
     void discardItem(string id, int quantity);
     void useTool(string id);
     void moveItem(string IDsrc, string IDdest);
-    void moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting table);
+    void moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting& table);
 
     // Show Inventory
     void showInventory();
