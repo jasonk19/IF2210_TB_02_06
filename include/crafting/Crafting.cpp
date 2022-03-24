@@ -156,7 +156,6 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
     }
     else{
         SlotInventory inventorySlot = inventory.getInvenContainer(IDinvendest);
-         // belum ada method akses inventory
 
         // 2. inventory kosong -> bisa move
         if (inventorySlot.getQuantity() == 0){
