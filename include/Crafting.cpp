@@ -1,5 +1,5 @@
-#include "../Tool.hpp"
-#include "../NonTool.hpp"
+#include "Tool.hpp"
+#include "NonTool.hpp"
 #include "Crafting.hpp"
 
 int getRowCraft(int integer){

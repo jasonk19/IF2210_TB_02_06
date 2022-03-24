@@ -1,8 +1,8 @@
 #ifndef CRAFTING_HPP
 #define CRAFTING_HPP
 
-#include "../Item.hpp"
-#include "../Inventory.hpp"
+#include "Item.hpp"
+#include "Inventory.hpp"
 #include "Recipe.hpp"
 
 int getRowCraft(int integer);

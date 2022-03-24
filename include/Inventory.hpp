@@ -2,7 +2,7 @@
 #define _INVENTORY_HPP_
 
 #include "SlotInventory.hpp"
-#include "crafting/Crafting.hpp"
+#include "Crafting.hpp"
 #include <bits/stdc++.h>
 #include <string>
 #include <fstream>

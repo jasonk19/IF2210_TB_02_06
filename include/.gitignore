@@ -1,2 +1,5 @@
 #ignore "driver" binary file, please compile with "drive" as output bin filename
 driver
+/html
+/latex
+doxyfile

@@ -4,10 +4,6 @@
 #include <iostream>
 #include <string>
 #include "include/Class.hpp"
-#include "include/Inventory.hpp"
-#include "include/SlotInventory.hpp"
-#include "include/crafting/Recipe.hpp"
-#include "include/crafting/Crafting.hpp"
 
 using namespace std;
 

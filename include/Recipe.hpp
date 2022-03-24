@@ -1,7 +1,7 @@
 #ifndef RECIPE_HPP
 #define RECIPE_HPP
 
-#include "../Item.hpp"
+#include "Item.hpp"
 #include <vector>
 using namespace std;
 
