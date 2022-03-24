@@ -18,11 +18,11 @@ int main() {
 
   Item::readItemConfig(itemConfigPath);
   // read item from config file
-  //ifstream itemConfigFile(itemConfigPath);
-  //for (string line; getline(itemConfigFile, line);) {
-    //cout << line << endl;
+  ifstream itemConfigFile(itemConfigPath);
+  for (string line; getline(itemConfigFile, line);) {
+    cout << line << endl;
     // do something
-  //}
+  }
 
   // read recipes
   for (const auto &entry : filesystem::directory_iterator(configPath + "/recipe")) {

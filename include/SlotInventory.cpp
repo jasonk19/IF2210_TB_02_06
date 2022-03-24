@@ -35,6 +35,20 @@ SlotInventory::SlotInventory(const SlotInventory& slotinventory){
         cout << "Maaf quantity yang dimasukkan melebihi kapasitas";
     }
 }
+SlotInventory& SlotInventory::operator=(const SlotInventory& slotinventory)
+{
+    this->IDslot = slotinventory.IDslot;
+    if (quantity <= capacity){
+        this->quantity = slotinventory.quantity;
+        this->slotContainer = slotinventory.slotContainer;
+        return *this;
+    }
+    else
+    {
+        cout << "Maaf quantity yang dimasukkan melebihi kapasitas";
+        return *this;
+    }
+}
 
 SlotInventory::~SlotInventory(){
     // cout << "SlotInventory has been Destroyed" << endl;
@@ -74,6 +88,12 @@ void SlotInventory::setQuantity(int currentQuantity){
 
 void SlotInventory::addQuantity(int addQuantity){
     this->quantity += addQuantity;
+}
+
+void SlotInventory::addAnItemToSlot(Item* item){
+    int CurrentQuantity = this->quantity;
+    this->slotContainer[quantity] = *item;
+    this->quantity = CurrentQuantity;
 }
 
 void SlotInventory::addItemToSlot(Item* item, int Quantity){

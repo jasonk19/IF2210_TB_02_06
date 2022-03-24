@@ -155,17 +155,16 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
         cout << "Tidak ada item pada slot crafting " << IDCraftsrc << endl;
     }
     else{
-        Item* inventorySlot; // belum ada method akses inventory
-
+        SlotInventory inventorySlot = inventory.getInvenContainer(IDinvendest);
 
         // 2. inventory kosong -> bisa move
-        if (inventorySlot == NULL){
+        if (inventorySlot.getQuantity() == 0){
             // lakukan pemindahan barang lgsg
-            inventorySlot = temp;
+            inventorySlot.addItemToSlot(temp,1);
             this->setItem(NULL,rowCraft,colCraft);
         }
         else{
-            bool sameType = inventorySlot->getName() == temp->getName();
+            bool sameType = inventorySlot.getNameFromSlotItem() == temp->getName();
 
             // 3. inventory keisi item sama -> cek jumlah itemnya < 64 ga?
             if (sameType){
@@ -174,15 +173,13 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
                     cout << "Tidak bisa memindahkan item, Tool tidak bisa ditumpuk" << endl;
                 }
                 else{
-                    NonTool* NT = dynamic_cast<NonTool*>(inventorySlot);
-                    if (NT->getQuantity() < 64){
-                        //move item (belum bisa akses inventory)
+                    if (inventorySlot.getEmptyQuantity() >= 1){
+                        inventorySlot.addItemToSlot(temp,1);
                     }
                     else{
                         cout << "Slot inventory " << IDinvendest << " sudah penuh" << endl;
                     }
                 }
-                
             }
             // 4. inventory keisi item beda -> gabisa move, output pesan
             else{
