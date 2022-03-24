@@ -8,6 +8,9 @@
 int getRowCraft(int integer);
 int getColCraft(int integer);
 
+//forward declaration
+class Inventory;
+
 class Crafting{
     protected: 
         vector<Recipe> recipes;

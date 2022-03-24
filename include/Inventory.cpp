@@ -91,7 +91,7 @@ void Inventory::moveItem(string IDsrc, string IDdest){
 }
 
 // moveToCrafting
-void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting table){
+void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting& table){
     int Row = getRowInven(convertIDtoInt(IDslotInventory)), Col = getColInven(convertIDtoInt(IDslotInventory)); 
     int RowCraftDest, ColCraftDest;
     int index = N;

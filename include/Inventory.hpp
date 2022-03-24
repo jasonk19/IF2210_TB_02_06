@@ -10,6 +10,9 @@ int convertIDtoInt(string ID);
 int getRowInven(int integer);
 int getColInven(int integer);
 
+//forward declaration
+class Crafting;
+
 class Inventory {
     protected:
         SlotInventory** InvenContainer;
@@ -19,14 +22,14 @@ class Inventory {
     public:
         Inventory();
         Inventory(const Inventory& inventory);
-        Inventory& operator=(const Inventory& Inventory);
+        Inventory& operator=(const Inventory& inventory);
         virtual ~Inventory();
         
         // Getter
         SlotInventory getInvenContainer(string ID);
 
         void moveItem(string IDsrc, string IDdest);
-        void moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting table);
+        void moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting& table);
 
         bool containItem(Item* item);
         void addItem(Item* item, int quantity);
