@@ -34,23 +34,7 @@ int main() {
   // sample interaction
   string command;
   while (cin >> command) {
-    if (command == "EXPORT") 
-    {
-      string outputPath;
-      cin >> outputPath;
-      ofstream outputFile(outputPath);
-
-      // hardcode for first test case
-      outputFile << "21:10" << endl;
-      outputFile << "6:1" << endl;
-      for (int i = 2; i < 27; i++) {
-        outputFile << "0:0" << endl;
-      }
-
-      cout << "Exported" << endl;
-    }
-
-    else if (command == "SHOW")
+    if (command == "SHOW")
     {
       crafting.showCrafting();
       inventory.showInventory();
@@ -145,7 +129,7 @@ int main() {
       string filename;
       cin>>filename;
       inventory.exportInventory(filename);
-      cout<<"File exported to filename"<<endl;
+      cout<<"File exported to "<< filename << endl;
     }
 
     else {
