@@ -206,6 +206,9 @@ void Inventory::useTool(string id) {
   if (temp->isA<Tool>()) {
     Tool* t = dynamic_cast<Tool*>(temp);
     t->setDurability(t->getDurability() - 1);
+    if (t->getDurability() == 0) {
+      this->InvenContainer[idSlot].setEmptySlot();
+    }
   }
 }
 
