@@ -1,6 +1,14 @@
 #include "Inventory.hpp"
 #include <iostream>
 
+int convertIDtoInt(string ID){
+    int temp;
+    for (int i = 1; i < ID.size(); i++){
+        temp += ID[i] * pow(10,ID.size() - 1 - i);
+    }
+    return temp;
+}
+
 Inventory::Inventory() {
   this->InvenContainer = new SlotInventory[27];
 }
@@ -78,6 +86,50 @@ int Inventory::getTotalQuantity(Item* item) {
   }
 
   return total;
+}
+
+void Inventory::moveItem(string IDsrc, string IDdest){
+  int indexSrc = convertIDtoInt(IDsrc), indexDest = convertIDtoInt(IDdest);
+  if ((this->InvenContainer[indexSrc].getNameFromSlotItem() == this->InvenContainer[indexDest].getNameFromSlotItem()) && (this->InvenContainer[indexSrc].getTypeFromSlotItem() == this->InvenContainer[indexDest].getTypeFromSlotItem()) && ((this->InvenContainer[indexSrc].getItem())->isA<NonTool>()) && ((this->InvenContainer[indexDest].getItem())->isA<NonTool>())){
+      // Move
+      int QuantityToMove;
+      if (this->InvenContainer[indexSrc].getQuantity() <= this->InvenContainer[indexDest].getEmptyQuantity()){
+
+          // Move seluruh Item dari src ke dest
+          QuantityToMove = this->InvenContainer[indexSrc].getQuantity();
+      }
+      else{
+          // Move sebagian Item
+          QuantityToMove = this->InvenContainer[indexDest].getEmptyQuantity();
+      }
+      // Add
+      this->InvenContainer[indexDest].addItemToSlot(this->InvenContainer[indexSrc].getItem(), QuantityToMove);
+      // Remove
+      this->InvenContainer[indexSrc].removeItem(QuantityToMove);
+  }
+
+    else{
+        cout << "Maaf kedua item berbeda\n" << endl;
+    }
+}
+
+void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting table){
+  int indexInven = convertIDtoInt(IDslotInventory);
+  int RowCraftDest, ColCraftDest;
+  int index = N;
+  if (this->InvenContainer[indexInven].getQuantity() >= N){
+    if (N < 9){
+        for (int i = N-1; i >= 0; i--){
+            index--;
+            RowCraftDest = getRowCraft(convertIDtoInt(IDcraftdest[index]));
+            ColCraftDest = getColCraft(convertIDtoInt(IDcraftdest[index]));
+            // Add item to crafting
+            table.setItem(this->InvenContainer[indexInven].getItem(), RowCraftDest, ColCraftDest);
+        }
+        // Remove Item
+        this->InvenContainer[indexInven].removeItem(N);
+    }
+  }
 }
 
 bool Inventory::containItem(Item* item) {
