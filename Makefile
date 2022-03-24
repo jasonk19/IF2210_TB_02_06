@@ -10,7 +10,7 @@ all: compile test check
 
 # Compile all cpp files except check.cpp
 compile:
-	g++ -std=c++17 $(SRCS) include/*.cpp include/*.hpp -o $(EXECUTABLE_FILENAME) 
+	g++ -std=c++17 $(SRCS) include/*.cpp include/*.hpp include/crafting/*.cpp include/crafting/*.hpp -o $(EXECUTABLE_FILENAME) 
 
 # Test
 test: $(TC_FOLDER)/*.$(EXT_IN) $(EXECUTABLE_FILENAME)

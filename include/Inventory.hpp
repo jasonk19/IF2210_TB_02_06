@@ -8,6 +8,8 @@
 #include <fstream>
 using namespace std;
 
+class Crafting;
+
 int convertIDtoInt(string ID);
 
 class Inventory {
