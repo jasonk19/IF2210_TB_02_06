@@ -2,13 +2,13 @@
 
 SlotInventory::SlotInventory()
 {
-    quantity = 0;
-    IDslot = -1;
     for (int i = 0; i < capacity; i++){
         slotContainer[i].setId(-1);
         slotContainer[i].setName("Unknown");
         slotContainer[i].setType("Unknown");
-    } 
+    }
+    quantity = 0;
+    IDslot = -1;
 }
 
 
