@@ -80,12 +80,13 @@ int main() {
       string slotSrc;
       int slotQty;
       string slotDest;
-      cin >> slotSrc >> slotQty;
+      cin >> slotSrc >> slotQty >> slotDest;
       // inventory to crafting
-      if (slotSrc[0] == 'I' && slotQty > 1)
+      if (slotSrc[0] == 'I' && slotQty >= 1 && slotDest[0] == 'C')
       {
          string* arr = new string[slotQty];
-         for (int i = 0 ; i < slotQty ; i++)
+         arr[0] = slotDest;
+         for (int i = 1 ; i < slotQty ; i++)
          {
            cin >> slotDest;
            arr[i] = slotDest;

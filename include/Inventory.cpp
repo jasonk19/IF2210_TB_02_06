@@ -2,9 +2,9 @@
 #include <iostream>
 
 int convertIDtoInt(string ID){
-    int temp;
+    int temp = 0;
     for (int i = 1; i < ID.size(); i++){
-        temp += ID[i] * pow(10,ID.size() - 1 - i);
+        temp += (ID[i] - '0') * pow(10,ID.size() - 1 - i);
     }
     return temp;
 }
@@ -100,15 +100,15 @@ void Inventory::moveItem(string IDsrc, string IDdest){
 
           // Move seluruh Item dari src ke dest
           QuantityToMove = this->InvenContainer[indexSrc].getQuantity();
+        // Add
+          this->InvenContainer[indexDest].addItemToSlot(this->InvenContainer[indexSrc].getItem(), QuantityToMove);
+        // Remove
+          this->InvenContainer[indexSrc].removeItem(QuantityToMove);
       }
       else{
           // Move sebagian Item
-          QuantityToMove = this->InvenContainer[indexDest].getEmptyQuantity();
+          throw "error bang";
       }
-      // Add
-      this->InvenContainer[indexDest].addItemToSlot(this->InvenContainer[indexSrc].getItem(), QuantityToMove);
-      // Remove
-      this->InvenContainer[indexSrc].removeItem(QuantityToMove);
   }
 
     else{
@@ -117,7 +117,7 @@ void Inventory::moveItem(string IDsrc, string IDdest){
 }
 
 void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting& table){
-  int indexInven = convertIDtoInt(IDslotInventory);
+  int indexInven = getIdFromString(IDslotInventory);
   int RowCraftDest, ColCraftDest;
   int index = N;
   if (this->InvenContainer[indexInven].getQuantity() >= N){
