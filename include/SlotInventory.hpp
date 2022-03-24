@@ -22,14 +22,26 @@ class SlotInventory
 
     void setSlot(Item* item, int id, int quantity);
 
+    // getter
     int getId();
     int getQuantity();
+    int getEmptyQuantity();
     Item* getItem();
+    string getNameFromSlotItem();
+    string getTypeFromSlotItem();
 
+    // setter
     void setEmptySlot();
 
+    // adder
+    void addItemToSlot(Item* item, int Quantity);
     void addQuantity(int quantity);
+    
+    // reducer
     void reduceQuantity(int quantity);
+
+    // Remover
+    void removeItem(int QuantityToRemove);
 
 };
 
