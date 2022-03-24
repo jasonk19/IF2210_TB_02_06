@@ -1,214 +1,216 @@
 #include "Inventory.hpp"
+#include <iostream>
 
-int convertIDtoInt(string ID){
-    int temp;
-    for (int i = 1; i < ID.size(); i++){
-        temp += ID[i] * pow(10,ID.size() - 1 - i);
+Inventory::Inventory() {
+  this->InvenContainer = new SlotInventory[27];
+}
+
+int Inventory::getIdFromString(string id) {
+  if (id == "I0") {
+    return 0;
+  } else if (id == "I1") {
+    return 1;
+  } else if (id == "I2") {
+    return 2;
+  } else if (id == "I3") {
+    return 3;
+  } else if (id == "I4") {
+    return 4;
+  } else if (id == "I5") {
+    return 5;
+  } else if (id == "I6") {
+    return 6;
+  } else if (id == "I7") {
+    return 7;
+  } else if (id == "I8") {
+    return 8;
+  } else if (id == "I9") {
+    return 9;
+  } else if (id == "I10") {
+    return 10;
+  } else if (id == "I11") {
+    return 11;
+  } else if (id == "I12") {
+    return 12;
+  } else if (id == "I13") {
+    return 13;
+  } else if (id == "I14") {
+    return 14;
+  } else if (id == "I15") {
+    return 15;
+  } else if (id == "I16") {
+    return 16;
+  } else if (id == "I17") {
+    return 17;
+  } else if (id == "I18") {
+    return 18;
+  } else if (id == "I19") {
+    return 19;
+  } else if (id == "I20") {
+    return 20;
+  } else if (id == "I21") {
+    return 21;
+  } else if (id == "I22") {
+    return 22;
+  } else if (id == "I23") {
+    return 23;
+  } else if (id == "I24") {
+    return 24;
+  } else if (id == "I25") {
+    return 25;
+  } else if (id == "I26") {
+    return 26;
+  } else {
+    return -999;
+  }
+}
+
+int Inventory::getTotalQuantity(Item* item) {
+  int total = 0;
+
+  for (int i = 0; i < 27; i++) {
+    Item* temp = InvenContainer[i].getItem();
+    if (temp != NULL) {
+      if (temp->getId() == item->getId()) {
+        total += InvenContainer[i].getQuantity();
+      }
     }
-    return temp;
+  }
+
+  return total;
 }
 
-int getRowInven(int integer){
-    return (int)(integer/9);
-}
-
-int getColInven(int integer){
-    return (integer % 9);
-}
-
-Inventory::Inventory()
-{
-    for (int i = 0; i < sizeRow; i++){
-        for (int j = 0; j < sizeCol; j++){
-            InvenContainer[i][j] = SlotInventory();
-        }
-    }
-    this->quantity = 0;
-}
-
-Inventory::Inventory(const Inventory& inventory)
-{
-    for (int i = 0; i < sizeRow; i++)
-    {
-        for (int j = 0; j < sizeCol; j++)
-        {
-            this->InvenContainer[i][j] = inventory.InvenContainer[i][j];
-        }
-    }
-    this->quantity = inventory.quantity;
-}
-
-Inventory& Inventory::operator=(const Inventory& inventory)
-{
-    for (int i = 0; i < sizeRow; i++)
-    {
-        for (int j = 0; j < sizeCol; j++)
-        {
-            this->InvenContainer[i][j] = inventory.InvenContainer[i][j];    
-        }
-    }
-    this->quantity = inventory.quantity;
-    return *this;
-}
-
-SlotInventory Inventory::getInvenContainer(string ID){
-    int convertID = convertIDtoInt(ID);
-    int Row = getRowInven(convertID);
-    int Col = getColInven(convertID);
-    return this->InvenContainer[Row][Col];
-}
-
-Inventory::~Inventory()
-{
-    // cout << "Inventory has been Destroyed" << endl;
-}
-
-// moveItem
-void Inventory::moveItem(string IDsrc, string IDdest){
-    int RowSRC = getRowInven(convertIDtoInt(IDsrc)), ColSRC = getColInven(convertIDtoInt(IDsrc));
-    int RowDEST = getRowInven(convertIDtoInt(IDdest)), ColDEST = getColInven(convertIDtoInt(IDdest));
-    if ((this->InvenContainer[RowSRC][ColSRC].getNameFromSlotItem() == this->InvenContainer[RowDEST][ColDEST].getNameFromSlotItem()) && (this->InvenContainer[RowSRC][ColSRC].getTypeFromSlotItem() == this->InvenContainer[RowDEST][ColDEST].getTypeFromSlotItem()) && ((this->InvenContainer[RowSRC][ColSRC].getItemInfo())->isA<NonTool>()) && ((this->InvenContainer[RowDEST][ColDEST].getItemInfo())->isA<NonTool>())){
-        // Move
-        int QuantityToMove;
-        if (this->InvenContainer[RowSRC][ColSRC].getQuantity() <= this->InvenContainer[RowDEST][ColDEST].getEmptyQuantity()){
-
-            // Move seluruh Item dari src ke dest
-            QuantityToMove = this->InvenContainer[RowSRC][ColSRC].getQuantity();
-        }
-        else{
-            // Move sebagian Item
-            QuantityToMove = this->InvenContainer[RowDEST][ColDEST].getEmptyQuantity();
-        }
-        // Add
-        this->InvenContainer[RowDEST][ColDEST].addItemToSlot(this->InvenContainer[RowSRC][ColSRC].getItemInfo(), QuantityToMove);
-        // Remove
-        this->InvenContainer[RowSRC][ColSRC].removeItem(QuantityToMove);
-    }
-
-    else{
-        cout << "Maaf kedua item berbeda\n" << endl;
-    }
-}
-
-// moveToCrafting
-void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting& table){
-    int Row = getRowInven(convertIDtoInt(IDslotInventory)), Col = getColInven(convertIDtoInt(IDslotInventory)); 
-    int RowCraftDest, ColCraftDest;
-    int index = N;
-    if (this->InvenContainer[Row][Col].getQuantity() >= N){
-        if (N < 9){
-            for (int i = N-1; i >= 0; i--){
-                index--;
-                RowCraftDest = getRowCraft(convertIDtoInt(IDcraftdest[index]));
-                ColCraftDest = getColCraft(convertIDtoInt(IDcraftdest[index]));
-                // Add item to crafting
-                table.setItem(this->InvenContainer[Row][Col].getItemInfo(), RowCraftDest, ColCraftDest);
-            }
-            // Remove Item
-            this->InvenContainer[Row][Col].removeItem(N);
-        }
-    }
-}
-
-// containItem
 bool Inventory::containItem(Item* item) {
-    for (int i = 0; i < sizeRow; i++) {
-        for (int j = 0; j < sizeCol; j++) {
-            Item* temp = this->InvenContainer[i][j].getItemInfo();
-            if (temp->getName() == item->getName() && this->InvenContainer[i][j].getQuantity() < 64) {
-                return true;
-            }
+  if (item->isA<NonTool>()) {
+    for (int i = 0; i < 27; i++) {
+      Item* temp = InvenContainer[i].getItem();
+      if (temp != NULL) {
+        if (temp->getId() == item->getId() && InvenContainer[i].getQuantity() < 64) {
+          return true;
         }
+      }
     }
-    return false;
+  }
+  return false;
 }
 
-// addItem
 void Inventory::addItem(Item* item, int quantity) {
-    int id = 0;
-    for (int i = 0; i < sizeRow; i++) {
-        for (int j = 0; j < sizeCol; j++) {
-            if (quantity != 0) {
-                Item* temp = this->InvenContainer[i][j].getItemInfo();
-                if (this->InvenContainer[i][j].getQuantity() == 0 && !containItem(item)) {
-                    this->InvenContainer[i][j] = SlotInventory(item, quantity, id);
-                    quantity = 0;
-                } else if (temp->getName() == item->getName()) {
-                    if (temp->isA<NonTool>()) {
-                        if (this->InvenContainer[i][j].getQuantity() + quantity <= 64) {
-                            this->InvenContainer[i][j].addItemToSlot(item, quantity);
-                            quantity = 0;
-                        } else {
-                            int quantityLeft = this->InvenContainer[i][j].getQuantity() + quantity;
-                            quantityLeft -= 64;
-                            quantity -= quantityLeft;
-                            this->InvenContainer[i][j].addItemToSlot(item, quantity);
-                        }
-                    }
-                }
+  int id = 0;
+  for (int i = 0; i < 27; i++) {
+    if (quantity > 0) {
+      Item* temp = this->InvenContainer[i].getItem();
+      if (temp == NULL && !containItem(item)) {
+        if (quantity > 64) {
+          this->InvenContainer[i].setSlot(item, id, 64);
+          quantity = quantity -  64;
+        } else {
+          this->InvenContainer[i].setSlot(item, id, quantity);
+          quantity = 0;
+        }
+      } else if (temp != NULL && containItem(item)) {
+        if (temp->getId() == item->getId()) {
+          if (temp->isA<NonTool>()) {
+            if (this->InvenContainer[i].getQuantity() + quantity <= 64) {
+              this->InvenContainer[i].addQuantity(quantity);
+              quantity = 0;
             } else {
-                return;
+              int quantityLeft = this->InvenContainer[i].getQuantity() + quantity;
+              quantityLeft -= 64;
+              quantity -= quantityLeft;
+              this->InvenContainer[i].addQuantity(quantity);
+              quantity = quantityLeft;
             }
-            id++;
+          }
         }
+      }
+    } else {
+      return;
     }
+    id++;
+  }
 }
 
-// discardItem
 void Inventory::discardItem(string id, int quantity) {
-    int idSlot = convertIDtoInt(id);
+  int idSlot = getIdFromString(id);
 
-    for (int i = 0; i < sizeRow; i++) {
-        for (int j = 0; j < sizeCol; j++) {
-            Item* temp = this->InvenContainer[i][j].getItemInfo();
-            if (this->InvenContainer[i][j].getIDslot() == idSlot) {
-                if (temp->isA<NonTool>()) {
-                    if (quantity <= this->InvenContainer[i][j].getQuantity()) {
-                        this->InvenContainer[i][j].removeItem(quantity);
-                    }
-                    if (this->InvenContainer[i][j].getQuantity() <= 0) {
-                        this->InvenContainer[i][j] = SlotInventory();
-                    }
-                }
-            }
-        }
+  if (this->InvenContainer[idSlot].getQuantity() >= quantity) {
+    if (this->InvenContainer[idSlot].getId() == idSlot) {
+      this->InvenContainer[idSlot].reduceQuantity(quantity);
+      if (this->InvenContainer[idSlot].getQuantity() == 0) {
+        this->InvenContainer[idSlot].setEmptySlot();
+      }
     }
+  }
 }
 
-// Show Inventory
+void Inventory::useTool(string id) {
+  int idSlot = getIdFromString(id);
+
+  Item* temp = this->InvenContainer[idSlot].getItem();
+
+  if (temp->isA<Tool>()) {
+    Tool* t = dynamic_cast<Tool*>(temp);
+    t->setDurability(t->getDurability() - 1);
+  }
+}
+
 void Inventory::showInventory() {
     int id = 0;
-    for (int i = 0; i < sizeRow; i++) {
-        for (int j = 0; j < sizeCol; j++) {
-            Item* temp = this->InvenContainer[i][j].getItemInfo();
-            if (this->InvenContainer[i][j].getQuantity() == 0) {
-                cout << "[ I " << id << " ] ";
-            } else if (temp->isA<NonTool>()) {
-                NonTool* nt = dynamic_cast<NonTool*>(temp);
-                cout << "[ " << nt->getName() << "," << this->InvenContainer[i][j].getQuantity() << " ] ";
+    for (int i = 0; i < 27; i++) {
+        Item* temp = InvenContainer[i].getItem();
+        if (temp == NULL) {
+            if (id < 10) {
+              cout << "[ I " << id << " ] ";
             } else {
-                Tool* t = dynamic_cast<Tool*>(temp);
-                cout << "[ " << t->getName() << "," << t->getDurability() << " ] ";
+              cout << "[ I" << id << " ] ";
             }
-            id++;
+        } else if (temp->isA<NonTool>()) {
+            NonTool* nt = dynamic_cast<NonTool*>(temp);
+            cout << "[ " << nt->getName() << ";" << InvenContainer[i].getQuantity() << " ] ";
+        } else {
+            Tool* t = dynamic_cast<Tool*>(temp);
+            cout << "[ " << t->getName() << ";" << t->getDurability() << " ] ";
         }
-        cout << endl;
+        id++;
+        if ((i + 1) % 9 == 0) {
+          cout << endl;
+        }
     }
 }
 
 // Export inventory
-void Inventory::exportInventory(string outputPath) {
-    ofstream outputFile(outputPath);
-
-    for (int i = 0; i < sizeRow; i++) {
-        for (int j = 0; j < sizeCol; j++) {
-            Item* temp = this->InvenContainer[i][j].getItemInfo();
-            if (temp->isA<NonTool>()) {
-                outputFile << temp->getId() << ":" << this->InvenContainer[i][j].getQuantity() << endl;
-            } else {
-                Tool* t = dynamic_cast<Tool*>(temp);
-                outputFile << t->getId() << ":" << t->getDurability() << endl;
-            }
-        }
+void Inventory::testExport() {
+  for (int i = 0; i < 27; i++) {
+    Item* temp = InvenContainer[i].getItem();
+    if (temp != NULL) {
+      if (temp->isA<NonTool>()) {
+        NonTool* nt = dynamic_cast<NonTool*>(temp);
+        cout << nt->getId() << ":" << InvenContainer[i].getQuantity() << endl;
+      } else {
+        Tool* t = dynamic_cast<Tool*>(temp);
+        cout << t->getId() << ":" << t->getDurability() << endl;
+      }
+    } else {
+      cout << "0:0" << endl;
     }
+  }
+}
+
+void Inventory::exportInventory(string outputPath) {
+  ofstream outputFile(outputPath);
+
+  for (int i = 0; i < 27; i++) {
+    Item* temp = InvenContainer[i].getItem();
+    if (temp != NULL) {
+      if (temp->isA<NonTool>()) {
+        NonTool* nt = dynamic_cast<NonTool*>(temp);
+        outputFile << nt->getId() << ":" << InvenContainer[i].getQuantity() << endl;
+      } else {
+        Tool* t = dynamic_cast<Tool*>(temp);
+        outputFile << t->getId() << ":" << t->getDurability() << endl;
+      }
+    } else {
+      outputFile << "0:0" << endl;
+    }
+  }
 }

@@ -11,37 +11,26 @@ using namespace std;
 
 class SlotInventory
 {
-    protected:
-        Item* slotContainer;
-        const int capacity = 64;
-        int quantity;
-        int IDslot;
-    public:
-        SlotInventory();
-        SlotInventory(Item* slotContainer, int quantity, int IDslot);
-        SlotInventory(const SlotInventory& slotinventory);
-        SlotInventory& operator=(const SlotInventory& slotinventory);
-        virtual ~SlotInventory();
+  protected:
+    Item* slotcontainer;
+    int id;
+    int quantity;
+  public:
+    SlotInventory();
+    SlotInventory(Item* item, int id, int quantity);
+    ~SlotInventory();
 
-        // Getter
-        int getIDslot();
-        int getQuantity();
-        int getEmptyQuantity();
-        Item* getItemInfo();
-        string getNameFromSlotItem();
-        string getTypeFromSlotItem();
+    void setSlot(Item* item, int id, int quantity);
 
-        // Setter
-        void setIDslot(int IDslot);
-        void setQuantity(int currentQuantity);
-        
-        // Adder
-        void addQuantity(int addQuantity);
-        void addAnItemToSlot(Item* item);
-        void addItemToSlot(Item* item, int Quantity);
+    int getId();
+    int getQuantity();
+    Item* getItem();
 
-        // Remover
-        void removeItem(int QuantityToRemove);
+    void setEmptySlot();
+
+    void addQuantity(int quantity);
+    void reduceQuantity(int quantity);
+
 };
 
 #endif

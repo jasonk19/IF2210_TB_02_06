@@ -2,44 +2,32 @@
 #define _INVENTORY_HPP_
 
 #include "SlotInventory.hpp"
-#include "./crafting/Crafting.hpp"
 #include <bits/stdc++.h>
+#include <string>
+#include <fstream>
 using namespace std;
 
-int convertIDtoInt(string ID);
-int getRowInven(int integer);
-int getColInven(int integer);
-
-//forward declaration
-class Crafting;
-
 class Inventory {
-    protected:
-        SlotInventory** InvenContainer;
-        const int sizeRow = 3;
-        const int sizeCol = 9;
-        int quantity;
-    public:
-        Inventory();
-        Inventory(const Inventory& inventory);
-        Inventory& operator=(const Inventory& inventory);
-        virtual ~Inventory();
-        
-        // Getter
-        SlotInventory getInvenContainer(string ID);
+  protected:
+    SlotInventory* InvenContainer;
+  public:
+    Inventory();
 
-        void moveItem(string IDsrc, string IDdest);
-        void moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting& table);
+    // Getter
+    int getIdFromString(string id);
+    int getTotalQuantity(Item* item);
 
-        bool containItem(Item* item);
-        void addItem(Item* item, int quantity);
-        void discardItem(string id, int quantity);
+    bool containItem(Item* item);
+    void addItem(Item* item, int quantity = 1);
+    void discardItem(string id, int quantity);
+    void useTool(string id);
 
-        // Show Inventory
-        void showInventory();
+    // Show Inventory
+    void showInventory();
 
-        // Export Inventory
-        void exportInventory(string outputPath);
+    // Export Inventory
+    void testExport();
+    void exportInventory(string outputPath);
 };
 
 #endif

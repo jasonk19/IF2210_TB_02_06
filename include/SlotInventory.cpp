@@ -1,115 +1,49 @@
 #include "SlotInventory.hpp"
 
-SlotInventory::SlotInventory()
-{
-    for (int i = 0; i < capacity; i++){
-        slotContainer[i].setId(-1);
-        slotContainer[i].setName("Unknown");
-        slotContainer[i].setType("Unknown");
-    }
-    quantity = 0;
-    IDslot = -1;
+SlotInventory::SlotInventory() {
+  this->id = -1;
+  this->slotcontainer = NULL;
+  this->quantity = 0;
 }
 
-
-SlotInventory::SlotInventory(Item* slotContainer, int quantity, int IDslot){
-    this->IDslot = IDslot;
-    if (quantity <= capacity){
-        this->quantity = quantity;
-        this->slotContainer = slotContainer;
-    }
-    else
-    {
-        cout << "Maaf quantity yang dimasukkan melebihi kapasitas";
-    }
+SlotInventory::SlotInventory(Item* item, int id, int quantity) {
+  this->id = id;
+  this->slotcontainer = item;
+  this->quantity = quantity;
 }
 
-SlotInventory::SlotInventory(const SlotInventory& slotinventory){
-    this->IDslot = slotinventory.IDslot;
-    if (quantity <= capacity){
-        this->quantity = slotinventory.quantity;
-        this->slotContainer = slotinventory.slotContainer;
-    }
-    else
-    {
-        cout << "Maaf quantity yang dimasukkan melebihi kapasitas";
-    }
-}
-SlotInventory& SlotInventory::operator=(const SlotInventory& slotinventory)
-{
-    this->IDslot = slotinventory.IDslot;
-    if (quantity <= capacity){
-        this->quantity = slotinventory.quantity;
-        this->slotContainer = slotinventory.slotContainer;
-        return *this;
-    }
-    else
-    {
-        cout << "Maaf quantity yang dimasukkan melebihi kapasitas";
-        return *this;
-    }
+SlotInventory::~SlotInventory() {
+  // delete slot
 }
 
-SlotInventory::~SlotInventory(){
-    // cout << "SlotInventory has been Destroyed" << endl;
+void SlotInventory::setSlot(Item* item, int id, int quantity) {
+  this->id = id;
+  this->slotcontainer = item;
+  this->quantity = quantity;
 }
 
-int SlotInventory::getIDslot(){
-    return this->IDslot;
+int SlotInventory::getId() {
+  return this->id;
 }
 
-int SlotInventory::getQuantity(){
-    return this->quantity;
+int SlotInventory::getQuantity() {
+  return this->quantity;
 }
 
-int SlotInventory::getEmptyQuantity(){
-    return (capacity - quantity);
+Item* SlotInventory::getItem() {
+  return this->slotcontainer;
 }
 
-Item* SlotInventory::getItemInfo() {
-    return this->slotContainer;
+void SlotInventory::setEmptySlot() {
+  this->id = -1;
+  this->slotcontainer = NULL;
+  this->quantity = 0;
 }
 
-string SlotInventory::getNameFromSlotItem(){
-    return this->slotContainer[0].getName();
+void SlotInventory::addQuantity(int quantity) {
+  this->quantity = this->quantity + quantity;
 }
 
-string SlotInventory::getTypeFromSlotItem(){
-    return this->slotContainer[0].getType();
-}
-
-void SlotInventory::setIDslot(int IDslot){
-    this->IDslot = IDslot;
-}
-
-void SlotInventory::setQuantity(int currentQuantity){
-    this->quantity = currentQuantity;
-}
-
-void SlotInventory::addQuantity(int addQuantity){
-    this->quantity += addQuantity;
-}
-
-void SlotInventory::addAnItemToSlot(Item* item){
-    int CurrentQuantity = this->quantity;
-    this->slotContainer[quantity] = *item;
-    this->quantity = CurrentQuantity;
-}
-
-void SlotInventory::addItemToSlot(Item* item, int Quantity){
-    int CurrentQuantity = Quantity + this->quantity;
-    for (int i = this->quantity; i < CurrentQuantity; i++){
-        this->slotContainer[i] = item[i-this->quantity];
-    }
-    this->quantity = CurrentQuantity;
-}
-
-void SlotInventory::removeItem(int QuantityToRemove){
-    int CurrentQuantity = this->quantity - QuantityToRemove;
-    for (int i = CurrentQuantity; i < this->quantity; i++){
-        this->slotContainer[i].setId(-1);
-        this->slotContainer[i].setName("Unknown");
-        this->slotContainer[i].setType("Unknown");
-    }
-    this->quantity = CurrentQuantity;
+void SlotInventory::reduceQuantity(int quantity) {
+  this->quantity = this->quantity - quantity;
 }
