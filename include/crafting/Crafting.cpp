@@ -146,8 +146,8 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
    
     int rowCraft = getRowCraft(convertIDtoInt(IDCraftsrc));
     int colCraft = getColCraft(convertIDtoInt(IDCraftsrc));
-    int rowInventory = getRowInven(convertIDtoInt(IDinvendest));
-    int colInventory = getColInven(convertIDtoInt(IDinvendest));
+    int idInvent = inventory.getIdFromString(IDinvendest);
+    
     Item* temp = this->getItem(rowCraft,colCraft);
     // Kemaungkinan Kasus
     // 1. crafting_table kosong -> gabisa move, output pesan
@@ -155,7 +155,7 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
         cout << "Tidak ada item pada slot crafting " << IDCraftsrc << endl;
     }
     else{
-        SlotInventory inventorySlot = inventory.getInvenContainer(IDinvendest);
+        SlotInventory inventorySlot = inventory.getSlot(idInvent);
 
         // 2. inventory kosong -> bisa move
         if (inventorySlot.getQuantity() == 0){
