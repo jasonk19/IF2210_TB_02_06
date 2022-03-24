@@ -86,7 +86,6 @@ int main() {
       else if (slotSrc[0] == 'C' && slotDest[0] == 'I')
       {
         crafting.moveToInventory(inventory, slotSrc, slotDest);
-        cout<<"Item has been moved to inventory"<<endl;
       }
     } 
 
