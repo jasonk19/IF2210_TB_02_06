@@ -22,7 +22,9 @@ void Item::readItemConfig(string configFile){
         if(type != "-"){
             Item::itemId_rawTypeMap.insert({(ItemID)id, type});
             if(Item::rawType_rawIdMap.find(type) == Item::rawType_rawIdMap.end()){
-                Item::rawType_rawIdMap.insert({type, 101 + Item::rawType_rawIdMap.size()});
+                int typeId = 101 + Item::rawType_rawIdMap.size();
+                Item::rawType_rawIdMap.insert({type, typeId});
+                Item::itemId_rawTypeMap.insert({(ItemID)typeId, type});
             }
         }
     }

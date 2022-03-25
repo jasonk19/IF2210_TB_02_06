@@ -167,86 +167,71 @@ void Recipe::displayRecipe() const{
     cout << "\n";
 }
 
-bool Recipe::match(const Recipe& other) const{
+int Recipe::match(const Recipe& other) const{
     if(this->rowEff != other.rowEff) return false;
     if(this->colEff != other.colEff) return false;
 
-    bool same = true;
+    int score = 2;  // score 0 = tidak sesuai; score 1 = raw type sama; score 2 = item sama persis
     int row = this->rowEff;
     int col = this->colEff;
     for(int i = 0; i < row; i++){
         for(int j = 0; j < col; j++){
             ItemID thisId = this->recipe[i][j];
             ItemID otherId = other.recipe[i][j];
+            if(thisId == NO_ITEM && otherId != NO_ITEM || thisId != NO_ITEM && otherId == NO_ITEM){
+                score = 0;
+                break;
+            }
             auto thisRawType = Item::itemId_rawTypeMap.find(thisId);
             auto otherRawType = Item::itemId_rawTypeMap.find(otherId);
-
-            if(otherRawType == Item::itemId_rawTypeMap.end() && thisRawType == Item::itemId_rawTypeMap.end()){
-                if(thisId != otherId){
-                    same = false;
-                    break;
-                }
-            } else if(thisRawType == Item::itemId_rawTypeMap.end()){
-                int otherRawId = Item::rawType_rawIdMap.find(otherRawType->second)->second;
-                if(thisId != otherId && thisId != otherRawId){
-                    same = false;
-                    break;
-                }
-            } else if(otherRawType == Item::itemId_rawTypeMap.end()){
-                int thisRawId = Item::rawType_rawIdMap.find(thisRawType->second)->second;
-                if(thisId != otherId && thisRawId != otherId){
-                    same = false;
+            if(thisId == otherId){
+                continue;
+            } else if(thisRawType != Item::itemId_rawTypeMap.end() && otherRawType != Item::itemId_rawTypeMap.end()){
+                if(thisRawType->second == otherRawType->second){
+                    score = 1;
+                    continue;
+                } else{
+                    score = 0;
                     break;
                 }
             } else{
-                int thisRawId = Item::rawType_rawIdMap.find(thisRawType->second)->second;
-                int otherRawId = Item::rawType_rawIdMap.find(otherRawType->second)->second;
-                if(thisId != otherId && thisRawId != otherId && thisId != otherRawId && thisRawId != otherRawId){
-                    same = false;
-                    break;
-                }
+                score = 0;
+                break;
             }
         }
-        if(!same) break;
+        if(score == 0) break;
     }
-    if(!same){  // cek mirror sumbu y
-        same = true;
+    if(score == 0){  // cek mirror sumbu y
+        score = 2;
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
                 ItemID thisId = this->recipe[i][j];
                 ItemID otherId = other.recipe[i][col-j-1];
+                if(thisId == NO_ITEM && otherId != NO_ITEM || thisId != NO_ITEM && otherId == NO_ITEM){
+                    score = 0;
+                    break;
+                }
                 auto thisRawType = Item::itemId_rawTypeMap.find(thisId);
                 auto otherRawType = Item::itemId_rawTypeMap.find(otherId);
 
-                if(otherRawType == Item::itemId_rawTypeMap.end() && thisRawType == Item::itemId_rawTypeMap.end()){
-                    if(thisId != otherId){
-                        same = false;
-                        break;
-                    }
-                } else if(thisRawType == Item::itemId_rawTypeMap.end()){
-                    int otherRawId = Item::rawType_rawIdMap.find(otherRawType->second)->second;
-                    if(thisId != otherId && thisId != otherRawId){
-                        same = false;
-                        break;
-                    }
-                } else if(otherRawType == Item::itemId_rawTypeMap.end()){
-                    int thisRawId = Item::rawType_rawIdMap.find(thisRawType->second)->second;
-                    if(thisId != otherId && thisRawId != otherId){
-                        same = false;
+                if(thisId == otherId){
+                    continue;
+                } else if(thisRawType != Item::itemId_rawTypeMap.end() && otherRawType != Item::itemId_rawTypeMap.end()){
+                    if(thisRawType->second == otherRawType->second){
+                        score = 1;
+                        continue;
+                    } else{
+                        score = 0;
                         break;
                     }
                 } else{
-                    int thisRawId = Item::rawType_rawIdMap.find(thisRawType->second)->second;
-                    int otherRawId = Item::rawType_rawIdMap.find(otherRawType->second)->second;
-                    if(thisId != otherId && thisRawId != otherId && thisId != otherRawId && thisRawId != otherRawId){
-                        same = false;
-                        break;
-                    }
+                    score = 0;
+                    break;
                 }
             }
-            if(!same) break;
+            if(score == 0) break;
         }
     }
 
-    return same;
+    return score;
 }

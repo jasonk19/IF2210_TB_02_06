@@ -159,13 +159,18 @@ Item* Crafting::craftSimulate(){
         }
     }
     Recipe current(itemInCraftTable);
+    if(current.getRowEff() == 0) return NULL;
+    
+    int highestScore = 0;
     for(const auto& recipe : this->recipes){
-        if(current.match(recipe)){
+        int currentScore = current.match(recipe);
+        if(currentScore > highestScore){
             res = Item::generateObject(recipe.getResultId());
             if(res->isA<NonTool>()){
                 dynamic_cast<NonTool*>(res)->setQuantity(recipe.getResultCount());
             }
-            break;
+            highestScore = currentScore;
+            if(highestScore == 2) break;
         }
     }
     return res;

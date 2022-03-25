@@ -20,7 +20,7 @@ class Recipe{
         int getColEff() const;
         ItemID getResultId() const;
         int getResultCount() const;
-        bool match(const Recipe& other) const;
+        int match(const Recipe& other) const;
         void displayRecipe() const;
 };
 
