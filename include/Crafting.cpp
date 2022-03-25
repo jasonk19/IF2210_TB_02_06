@@ -1,6 +1,7 @@
 #include "Tool.hpp"
 #include "NonTool.hpp"
 #include "Crafting.hpp"
+#include "Exception.hpp"
 
 int getRowCraft(int integer){
     return (int)(integer/3);
@@ -124,29 +125,30 @@ Item* Crafting::craftSimulate(){
             break;
         }
     }
-
     return res;
 }
 
 Item* Crafting::craft(){
     Item* craftRes = this->craftSimulate();
-    if(craftRes != NULL){
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
-                Item* current = this->crafting_table[i][j];
-                if(current != NULL){
-                    if(current->isA<NonTool>()){
-                        NonTool* NT = dynamic_cast<NonTool*>(current);
-                        if(NT->getQuantity() == 1){
-                            delete current;
-                            crafting_table[i][j] = NULL;
-                        } else{
-                            NT->setQuantity(NT->getQuantity() - 1);
-                        }
-                    } else{
+    if(craftRes == NULL)
+        throw Exception("Crafting failed! No matching recipe!");
+
+    
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            Item* current = this->crafting_table[i][j];
+            if(current != NULL){
+                if(current->isA<NonTool>()){
+                    NonTool* NT = dynamic_cast<NonTool*>(current);
+                    if(NT->getQuantity() == 1){
                         delete current;
                         crafting_table[i][j] = NULL;
+                    } else{
+                        NT->setQuantity(NT->getQuantity() - 1);
                     }
+                } else{
+                    delete current;
+                    crafting_table[i][j] = NULL;
                 }
             }
         }

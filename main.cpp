@@ -3,11 +3,13 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include "./include/Exception.hpp"
 #include "include/Class.hpp"
 
 using namespace std;
 
-int main() {
+int main()
+{
   Crafting crafting;
   Inventory inventory;
   string configPath = "./config";
@@ -16,120 +18,131 @@ int main() {
   Item::readItemConfig(itemConfigPath);
   // read item from config file
   ifstream itemConfigFile(itemConfigPath);
-  for (string line; getline(itemConfigFile, line);) {
+  for (string line; getline(itemConfigFile, line);)
+  {
     cout << line << endl;
     // do something
   }
 
   // read recipes
-  for (const auto &entry : filesystem::directory_iterator(configPath + "/recipe")) {
+  for (const auto &entry : filesystem::directory_iterator(configPath + "/recipe"))
+  {
     Recipe r(entry.path().string());
     crafting.addRecipe(r);
   }
 
   // sample interaction
   string command;
-  while (cin >> command) {
-    if (command == "SHOW")
+  while (cin >> command)
+  {
+    try
     {
-      crafting.showCrafting();
-      inventory.showInventory();
-    }
-
-    else if (command == "GIVE") 
-    {
-      string itemName;
-      int itemQty;
-      cin >> itemName >> itemQty;
-      Item* i = Item::generateObject(Item::nama_ItemIdMap.find(itemName)->second);
-      inventory.addItem(i, itemQty);
-      cout<<itemName<<" added to inventory"<<endl;
-    } 
-
-    else if (command == "DISCARD")
-    {
-       string id;
-       int qty;
-       cin >> id >> qty;
-       inventory.discardItem(id, qty);
-       cout<<id<<" discarded, qty = "<<qty<<endl;
-    }
-
-    else if (command == "MOVE") 
-    {
-      string slotSrc;
-      int slotQty;
-      string slotDest;
-      cin >> slotSrc >> slotQty >> slotDest;
-      // inventory to crafting
-      if (slotSrc[0] == 'I' && slotQty >= 1 && slotDest[0] == 'C')
+      if (command == "SHOW")
       {
-         string* arr = new string[slotQty];
-         arr[0] = slotDest;
-         for (int i = 1 ; i < slotQty ; i++)
-         {
-           cin >> slotDest;
-           arr[i] = slotDest;
-         }
-         inventory.moveToCrafting(slotSrc, slotQty, arr, crafting); 
-         cout<<"Item has been moved to crafting"<<endl;
+        crafting.showCrafting();
+        inventory.showInventory();
       }
 
-      //inventory to inventory
-      else if (slotSrc[0] == 'I' && slotDest[0] =='I')
+      else if (command == "GIVE")
       {
-         inventory.moveItem(slotSrc, slotDest);
-         cout<<"Item has been stacked in inventory"<<endl;
+        string itemName;
+        int itemQty;
+        cin >> itemName >> itemQty;
+        Item *i = Item::generateObject(Item::nama_ItemIdMap.find(itemName)->second);
+        inventory.addItem(i, itemQty);
+        cout << itemName << " added to inventory" << endl;
       }
 
-      //crafting to inventory
-      else if (slotSrc[0] == 'C' && slotDest[0] == 'I')
+      else if (command == "DISCARD")
       {
-        crafting.moveToInventory(inventory, slotSrc, slotDest);
+        string id;
+        int qty;
+        cin >> id >> qty;
+        inventory.discardItem(id, qty);
+        cout << id << " discarded, qty = " << qty << endl;
       }
-    } 
 
-    else if (command == "CRAFT") 
-    {
-      Item* craftResult = crafting.craft();
-      if(craftResult == NULL)
+      else if (command == "MOVE")
       {
-        cout << "Crafting Gagal!\nTidak resep yang cocok\n\n";
-      } 
+        string slotSrc;
+        int slotQty;
+        string slotDest;
+        cin >> slotSrc >> slotQty >> slotDest;
+        // inventory to crafting
+        if (slotSrc[0] == 'I' && slotQty >= 1 && slotDest[0] == 'C')
+        {
+          string *arr = new string[slotQty];
+          arr[0] = slotDest;
+          for (int i = 1; i < slotQty; i++)
+          {
+            cin >> slotDest;
+            arr[i] = slotDest;
+          }
+          inventory.moveToCrafting(slotSrc, slotQty, arr, crafting);
+          cout << "Item has been moved to crafting" << endl;
+        }
+
+        // inventory to inventory
+        else if (slotSrc[0] == 'I' && slotDest[0] == 'I')
+        {
+          inventory.moveItem(slotSrc, slotDest);
+          cout << "Item has been stacked in inventory" << endl;
+        }
+
+        // crafting to inventory
+        else if (slotSrc[0] == 'C' && slotDest[0] == 'I')
+        {
+          crafting.moveToInventory(inventory, slotSrc, slotDest);
+        }
+      }
+
+      else if (command == "CRAFT")
+      {
+        Item *craftResult = crafting.craft();
+        if (craftResult == NULL)
+        {
+          cout << "Crafting Gagal!\nTidak resep yang cocok\n\n";
+        }
+
+        else
+        {
+          if (craftResult->isA<NonTool>())
+          {
+            inventory.addItem(craftResult, dynamic_cast<NonTool *>(craftResult)->getQuantity());
+          }
+          else
+          {
+            inventory.addItem(craftResult);
+          }
+          cout << "Crafting Success !" << endl;
+        }
+      }
+
+      else if (command == "USE")
+      {
+        string id;
+        cin >> id;
+        inventory.useTool(id);
+        cout << "Item used" << endl;
+      }
+
+      else if (command == "EXPORT")
+      {
+        string filename;
+        cin >> filename;
+        inventory.exportInventory(filename);
+        cout << "File exported to " << filename << endl;
+      }
 
       else
       {
-         if (craftResult->isA<NonTool>())
-         {
-             inventory.addItem(craftResult, dynamic_cast<NonTool*>(craftResult)->getQuantity());
-         }
-         else
-         {
-            inventory.addItem(craftResult);
-         }
-         cout<<"Crafting Success !"<<endl;
+        // todo
+        cout << "Invalid command" << endl;
       }
     }
-
-    else if (command == "USE")
+    catch (Exception e)
     {
-      string id;
-      cin>>id;
-      inventory.useTool(id);
-      cout<<"Item used"<<endl;
-    }
-
-    else if (command == "EXPORT")
-    {
-      string filename;
-      cin>>filename;
-      inventory.exportInventory(filename);
-      cout<<"File exported to "<< filename << endl;
-    }
-
-    else {
-      // todo
-      cout << "Invalid command" << endl;
+      cout << e.getMessage() << '\n';
     }
   }
   return 0;
