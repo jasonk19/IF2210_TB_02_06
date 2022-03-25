@@ -137,7 +137,7 @@ Item* Crafting::craftSimulate(){
         for(int j=0; j < 3; j++){
             Item* temp = this->crafting_table[i][j];
             if(temp != NULL){
-                rowItem.push_back((ItemID)temp->getId());
+                rowItem.push_back(temp->getId());
                 if(temp->isA<Tool>()){
                     toolsInCraft.push_back(temp);
                 } else{
