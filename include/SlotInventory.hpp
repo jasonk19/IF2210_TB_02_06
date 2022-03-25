@@ -3,7 +3,6 @@
 #ifndef _SLOTINVENTORY_HPP_
 #define _SLOTINVENTORY_HPP_
 
-#include <bits/stdc++.h>
 #include "Item.hpp"
 #include "Tool.hpp"
 #include "NonTool.hpp"

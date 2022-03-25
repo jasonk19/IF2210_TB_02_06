@@ -1,6 +1,7 @@
 #include "Inventory.hpp"
 #include "Exception.hpp"
 #include <iostream>
+#include <cmath>
 
 int convertIDtoInt(string ID){
     int temp = 0;
@@ -12,6 +13,9 @@ int convertIDtoInt(string ID){
 
 Inventory::Inventory() {
   this->InvenContainer = new SlotInventory[27];
+  for(int i = 0; i < 27; i++){
+    this->InvenContainer[i].setSlot(NULL, i, 0);
+  }
 }
 
 SlotInventory& Inventory :: getSlot(int id){
@@ -94,6 +98,7 @@ int Inventory::getTotalQuantity(Item* item) {
 
 void Inventory::moveItem(string IDsrc, string IDdest){
   int indexSrc = convertIDtoInt(IDsrc), indexDest = convertIDtoInt(IDdest);
+  cout << indexSrc << ' ' << indexDest << '\n';
   if ((this->InvenContainer[indexSrc].getNameFromSlotItem() == this->InvenContainer[indexDest].getNameFromSlotItem()) && (this->InvenContainer[indexSrc].getTypeFromSlotItem() == this->InvenContainer[indexDest].getTypeFromSlotItem()) && ((this->InvenContainer[indexSrc].getItem())->isA<NonTool>()) && ((this->InvenContainer[indexDest].getItem())->isA<NonTool>())){
       // Move
       int QuantityToMove;

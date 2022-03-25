@@ -47,7 +47,7 @@ string SlotInventory::getTypeFromSlotItem(){
 }
 
 void SlotInventory::setEmptySlot() {
-  this->id = -1;
+  //this->id = -1;
   this->slotcontainer = NULL;
   this->quantity = 0;
 }
