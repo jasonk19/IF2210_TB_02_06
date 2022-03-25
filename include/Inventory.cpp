@@ -1,4 +1,5 @@
 #include "Inventory.hpp"
+#include "Exception.hpp"
 #include <iostream>
 
 int convertIDtoInt(string ID){
@@ -111,9 +112,9 @@ void Inventory::moveItem(string IDsrc, string IDdest){
       }
   }
 
-    else{
-        cout << "Maaf kedua item berbeda\n" << endl;
-    }
+  else{
+      throw Exception("Cannot move Item! Both Items are different");
+  }
 }
 
 void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdest, Crafting& table){
@@ -132,8 +133,11 @@ void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdes
         // Remove Item
         this->InvenContainer[indexInven].removeItem(N);
     }
+  } else {
+    throw Exception("Item's quantity not enough!");
   }
 }
+
 
 bool Inventory::containItem(Item* item) {
   if (item->isA<NonTool>()) {
@@ -188,6 +192,10 @@ void Inventory::addItem(Item* item, int quantity) {
 void Inventory::discardItem(string id, int quantity) {
   int idSlot = getIdFromString(id);
 
+  if (this->InvenContainer[idSlot].getItem() == NULL) {
+    throw Exception("This Slot is Empty!");
+  }
+
   if (this->InvenContainer[idSlot].getQuantity() >= quantity) {
     if (this->InvenContainer[idSlot].getId() == idSlot) {
       this->InvenContainer[idSlot].reduceQuantity(quantity);
@@ -195,6 +203,8 @@ void Inventory::discardItem(string id, int quantity) {
         this->InvenContainer[idSlot].setEmptySlot();
       }
     }
+  } else {
+    throw Exception("Quantity to throw exceeds item quantity!");
   }
 }
 
@@ -203,12 +213,18 @@ void Inventory::useTool(string id) {
 
   Item* temp = this->InvenContainer[idSlot].getItem();
 
+  if (temp == NULL) {
+    throw Exception("This Slot is Empty!");
+  }
+
   if (temp->isA<Tool>()) {
     Tool* t = dynamic_cast<Tool*>(temp);
     t->setDurability(t->getDurability() - 1);
     if (t->getDurability() == 0) {
       this->InvenContainer[idSlot].setEmptySlot();
     }
+  } else {
+    throw Exception("This item is not a tool!");
   }
 }
 
