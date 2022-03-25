@@ -48,10 +48,9 @@ int main()
         string itemName;
         int itemQty;
         cin >> itemName >> itemQty;
-        auto itemIdIter = Item::nama_ItemIdMap.find(itemName);
-        if(itemIdIter == Item::nama_ItemIdMap.end()) throw Exception("Invalid Item Name!");
+        if(!Item::nama_ItemIdMap.isIn(itemName)) throw Exception("Invalid Item Name!");
 
-        Item *i = Item::generateObject(itemIdIter->second);
+        Item *i = Item::generateObject(Item::nama_ItemIdMap.getContent(itemName));
         inventory.addItem(i, itemQty);
         cout << itemName << " added to inventory" << endl;
       }

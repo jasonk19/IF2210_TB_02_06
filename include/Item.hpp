@@ -4,33 +4,10 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include "Mapping.hpp"
 
 typedef enum ItemID {
-    NO_ITEM = 0,
-    OAK_LOG = 1,
-    SPRUCE_LOG = 2,
-    BIRCH_LOG = 3,
-    OAK_PLANK = 4,
-    SPRUCE_PLANK = 5,
-    BIRCH_PLANK = 6,
-    STICK = 7,
-    COBBLESTONE = 8,
-    BLACKSTONE = 9,
-    IRON_INGOT = 10,
-    IRON_NUGGET = 11,
-    DIAMOND = 12,
-    WOODEN_PICKAXE = 13,
-    STONE_PICKAXE = 14,
-    IRON_PICKAXE = 15,
-    DIAMOND_PICKAXE = 16,
-    WOODEN_AXE = 17,
-    STONE_AXE = 18,
-    IRON_AXE = 19,
-    DIAMOND_AXE = 20,
-    WOODEN_SWORD = 21,
-    STONE_SWORD = 22,
-    IRON_SWORD = 23,
-    DIAMOND_SWORD = 24
+    NO_ITEM = 0
 } ItemID;
 
 using namespace std;
@@ -41,10 +18,10 @@ class Item {
         string name;
         string type;
     public:
-        static map<string,ItemID> nama_ItemIdMap; // mapping nama dan enum ItemID, dari config
-        static map<ItemID,Item*> itemId_ItemMap;  // menyimpan objek Item, jika ingin menambah suatu objek tinggal copy dari sini
-        static map<ItemID,string> itemId_rawTypeMap;   // rawType: LOG, PLANK
-        static map<string,int> rawType_rawIdMap;        // memberi id tiap rawType
+        static Mapping<string,int> nama_ItemIdMap; // mapping nama dan enum ItemID, dari config
+        static Mapping<int,Item*> itemId_ItemMap;  // menyimpan objek Item, jika ingin menambah suatu objek tinggal copy dari sini
+        static Mapping<int,string> itemId_rawTypeMap;   // rawType: LOG, PLANK
+        static Mapping<string,int> rawType_rawIdMap;        // memberi id tiap rawType
         static void readItemConfig(string configFile); // menginisialisasi namaItemIdMap dan itemIdItemMap
         static Item* generateObject(int itemId);
 

@@ -128,12 +128,12 @@ void Crafting :: showCrafting(){
 Item* Crafting::craftSimulate(){
     Item* res = NULL;
 
-    vector<vector<ItemID> > itemInCraftTable;
+    vector<vector<int> > itemInCraftTable;
     int nonToolCount = 0;
     vector<Item*> toolsInCraft;
 
     for(int i=0; i < 3; i++){
-        vector<ItemID> rowItem;
+        vector<int> rowItem;
         for(int j=0; j < 3; j++){
             Item* temp = this->crafting_table[i][j];
             if(temp != NULL){
