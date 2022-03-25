@@ -1,4 +1,5 @@
 #include "Inventory.hpp"
+#include "Exception.hpp"
 #include <iostream>
 
 int convertIDtoInt(string ID){
@@ -122,17 +123,32 @@ void Inventory::moveToCrafting(string IDslotInventory, int N, string* IDcraftdes
   int index = N;
   if (this->InvenContainer[indexInven].getQuantity() >= N){
     if (N < 9){
+      try{
         for (int i = N-1; i >= 0; i--){
-            index--;
-            RowCraftDest = getRowCraft(convertIDtoInt(IDcraftdest[index]));
-            ColCraftDest = getColCraft(convertIDtoInt(IDcraftdest[index]));
-            // Add item to crafting
+          index--;
+          RowCraftDest = getRowCraft(convertIDtoInt(IDcraftdest[index]));
+          ColCraftDest = getColCraft(convertIDtoInt(IDcraftdest[index]));
+          // check compatibility
+          table.isCompatible(this->InvenContainer[indexInven].getItem(), RowCraftDest, ColCraftDest);
+        }
+      } catch(Exception e){
+        throw Exception("Move Failed! Because move to " + IDcraftdest[index] + " " + e.getMessage());
+      }
+        index = N;
+        for (int i = N-1; i >= 0; i--){
+          index--;
+          RowCraftDest = getRowCraft(convertIDtoInt(IDcraftdest[index]));
+          ColCraftDest = getColCraft(convertIDtoInt(IDcraftdest[index]));
+          // Add item to crafting
+          if(table.getItem(RowCraftDest, ColCraftDest) == NULL)
             table.setItem(this->InvenContainer[indexInven].getItem(), RowCraftDest, ColCraftDest);
+          else
+            table.changeItemQty(RowCraftDest, ColCraftDest, 1);
         }
         // Remove Item
         this->InvenContainer[indexInven].removeItem(N);
-    }
-  }
+    } else throw Exception("Move Failed! Invalid N");
+  } else throw Exception("Move failed! Item quantity not enough");
 }
 
 bool Inventory::containItem(Item* item) {

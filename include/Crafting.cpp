@@ -15,20 +15,63 @@ Item* Crafting::getItem(int i, int j) const{
     return this->crafting_table[i][j];
 }
 
+bool Crafting::isCompatible(Item* itm, int i, int j){
+    if (itm == NULL)
+    {
+        return true;
+    }
+    
+    if(this->crafting_table[i][j] != NULL){
+        Item* tableItem = crafting_table[i][j];
+        if(itm->getId() == tableItem->getId()){
+            if(itm->isA<Tool>()){
+                throw Exception("Source Item is a Tool and destination is not empty");
+            } else{
+                return true;
+            }
+        } else{
+            throw Exception("Source and destination not same type");
+        }
+    }
+
+    return true;
+}
+
+void Crafting::changeItemQty(int i, int j, int changeQuantity){
+    if(this->crafting_table[i][j] != NULL){
+        if(this->crafting_table[i][j]->isA<NonTool>()){
+            NonTool* NT = dynamic_cast<NonTool*>(this->crafting_table[i][j]);
+
+            NT->setQuantity(NT->getQuantity()+changeQuantity);
+            if(NT->getQuantity() <= 0){
+                delete this->crafting_table[i][j];
+                this->crafting_table[i][j] = NULL;
+            }
+        } else if(changeQuantity < 0){  // Jika NonTool dan changeQuantity nya < 0
+            delete this->crafting_table[i][j];
+            this->crafting_table[i][j] = NULL;
+        }
+    }
+}
+
 void Crafting::setItem(Item* itm, int i, int j){
     if (itm == NULL)
     {
         this->crafting_table[i][j] = NULL;
     }
-    else if(itm->isA<Tool>())
-    {
-        this->crafting_table[i][j] = new Tool(*dynamic_cast<Tool*>(itm));
-    } 
-    else
-    {
-        this->crafting_table[i][j] = new NonTool(*dynamic_cast<NonTool*>(itm));
+    else{
+        if(this->crafting_table[i][j] != NULL){
+            delete crafting_table[i][j];
+        }
+
+        if(itm->isA<Tool>()){
+            this->crafting_table[i][j] = new Tool(*dynamic_cast<Tool*>(itm));
+        } else{
+            NonTool* NT = new NonTool(*dynamic_cast<NonTool*>(itm));
+            NT->setQuantity(1);
+            this->crafting_table[i][j] = NT;
+        }
     }
-    
 }
 
 vector<Recipe> Crafting::getRecipes() const{
@@ -162,21 +205,26 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
     int colCraft = getColCraft(convertIDtoInt(IDCraftsrc));
     int idInvent = inventory.getIdFromString(IDinvendest);
     
-    Item* temp = this->getItem(rowCraft,colCraft);
+    Item* item = this->getItem(rowCraft, colCraft);
     // Kemaungkinan Kasus
     // 1. crafting_table kosong -> gabisa move, output pesan
-    if (temp == NULL){
-        cout << "Tidak ada item pada slot crafting " << IDCraftsrc << endl;
+    if (item == NULL){
+        throw Exception("Move Failed! Tidak ada item pada slot crafting " + IDCraftsrc);
     }
     else{
+        Item* temp = NULL;
+        if(item->isA<Tool>()){
+            temp = new Tool(*dynamic_cast<Tool*>(item));
+        } else{
+            temp = new NonTool(*dynamic_cast<NonTool*>(item));
+        }
         SlotInventory& inventorySlot = inventory.getSlot(idInvent);;
 
         // 2. inventory kosong -> bisa move
         if (inventorySlot.getQuantity() == 0){
             // lakukan pemindahan barang lgsg
             inventorySlot.addItemToSlot(temp,1);
-            this->setItem(NULL,rowCraft,colCraft);
-            cout<<"Item has been moved to inventory"<<endl;
+            changeItemQty(rowCraft, colCraft, -1);
         }
         else{
             bool sameType = inventorySlot.getNameFromSlotItem() == temp->getName();
@@ -185,21 +233,21 @@ void Crafting :: moveToInventory(Inventory& inventory, string IDCraftsrc, string
             if (sameType){
                 // check jumlah item kalo nontool, kalo tool gabisa dipindah
                 if (temp->isA<Tool>()){
-                    cout << "Tidak bisa memindahkan item, Tool tidak bisa ditumpuk" << endl;
+                    throw Exception("Move Failed! Tidak bisa memindahkan item, Tool tidak bisa ditumpuk");
                 }
                 else{
                     if (inventorySlot.getEmptyQuantity() >= 1){
                         inventorySlot.addItemToSlot(temp,1);
-                        this->setItem(NULL, rowCraft, colCraft);
+                        changeItemQty(rowCraft, colCraft, -1);
                     }
                     else{
-                        cout << "Slot inventory " << IDinvendest << " sudah penuh" << endl;
+                        throw Exception("Move Failed! Slot inventory " + IDinvendest + " sudah penuh");
                     }
                 }
             }
             // 4. inventory keisi item beda -> gabisa move, output pesan
             else{
-                cout << "Tidak bisa memindahkan item, tipe item tidak cocok";
+                throw Exception("Move Failed! Tidak bisa memindahkan item, tipe item tidak cocok dengan tujuan");
             }
         }
     }

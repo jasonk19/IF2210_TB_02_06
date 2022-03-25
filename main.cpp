@@ -93,29 +93,22 @@ int main()
         else if (slotSrc[0] == 'C' && slotDest[0] == 'I')
         {
           crafting.moveToInventory(inventory, slotSrc, slotDest);
+          cout << "Item has been moved to inventory" << endl;
         }
       }
 
       else if (command == "CRAFT")
       {
         Item *craftResult = crafting.craft();
-        if (craftResult == NULL)
+        if (craftResult->isA<NonTool>())
         {
-          cout << "Crafting Gagal!\nTidak resep yang cocok\n\n";
+          inventory.addItem(craftResult, dynamic_cast<NonTool *>(craftResult)->getQuantity());
         }
-
         else
         {
-          if (craftResult->isA<NonTool>())
-          {
-            inventory.addItem(craftResult, dynamic_cast<NonTool *>(craftResult)->getQuantity());
-          }
-          else
-          {
-            inventory.addItem(craftResult);
-          }
-          cout << "Crafting Success !" << endl;
+          inventory.addItem(craftResult);
         }
+        cout << "Crafting Success !" << endl;
       }
 
       else if (command == "USE")
@@ -136,8 +129,7 @@ int main()
 
       else
       {
-        // todo
-        cout << "Invalid command" << endl;
+        throw Exception("Invalid command");
       }
     }
     catch (Exception e)

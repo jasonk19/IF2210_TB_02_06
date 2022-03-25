@@ -27,6 +27,8 @@ class Crafting{
         Item* craftSimulate();  // craftSimulate adalah craft dengan tidak mengurangi item, untuk showCrafting
         Item* getItem(int i, int j) const;
         void setItem(Item* itm, int i, int j);
+        void changeItemQty(int i, int j, int changeQuantity);
+        bool isCompatible(Item* itm, int i, int j);
         vector<Recipe> getRecipes() const;
         void moveToInventory(Inventory& inventory, string IDCraftsrc, string IDinvendest);
 };
