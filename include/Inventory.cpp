@@ -205,6 +205,10 @@ void Inventory::addItem(Item* item, int quantity) {
     }
     id++;
   }
+
+  if (quantity > 0) {
+    throw Exception("Inventory Full! " + to_string(quantity) + " " + item->getName() + " cannot be added anymore to inventory");
+  }
 }
 
 void Inventory::discardItem(string id, int quantity) {
